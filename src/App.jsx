@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router'
 import LoginScreen from './Screens/LoginScreen/LoginScreen'
 import RegisterScreen from './Screens/RegisterScreen/RegisterScreen'
-import AuthContextProvider from './context/AuthContext'
+import AuthContextProvider from './Context/AuthContext'
 import AuthMiddleware from './Middlewares/AuthMiddleware'
 
 function App() {
