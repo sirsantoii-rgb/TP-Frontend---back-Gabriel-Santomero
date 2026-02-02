@@ -11,10 +11,7 @@ function AuthContextProvider ({children}){
 
     useEffect(
         () => {
-            /* 
-            Normalmente los backends suelen tener un endpoint 
-            GET /api/auth/validate-token (Authorization: Bearer auth_token) Te responde si el token es valido o no
-            */
+           
             const auth_token = localStorage.getItem(AUTH_TOKEN_KEY)
             if(auth_token){
                 setIsLogged(true)

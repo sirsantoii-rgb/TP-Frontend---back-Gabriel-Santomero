@@ -8,7 +8,7 @@ const useForm = (
 ) => {
     const [form_state, setFormState] = useState(initial_form_fields)
 
-    //Nos permite trackear el valor de un campo
+   
     const onChangeFieldValue = (event) => {
         const {name, value} = event.target
 
@@ -19,7 +19,7 @@ const useForm = (
         )
     }
 
-    //Nos permite prevenir la recarga del evento submit y activar la funcion de envio
+
     const onSubmitForm = (event) => {
         event.preventDefault()
         onSubmit(form_state)

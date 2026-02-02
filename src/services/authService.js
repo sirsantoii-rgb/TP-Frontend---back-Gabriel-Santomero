@@ -49,9 +49,9 @@ export async function register(username, password, email) {
         {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json', //Configuramos que voy enviar JSON en la peticion
+                'Content-Type': 'application/json', 
             },
-            body: JSON.stringify( //transforma un Object a JSON en formato string
+            body: JSON.stringify( 
                 {
                     username: username,
                     password: password,
@@ -61,20 +61,10 @@ export async function register(username, password, email) {
         }
     )
 
-    //Transformar la respuesta HTTP para obtener los datos que nos envio por body el servidor
-    //Como el servidor envia JSON debemos tomar la response como json (.json())
+    
     const response = await response_http.json()
     if (!response.ok) {
         throw new ServerError(response.message, response.status)
     }
     return response
 }
-/* 
-response body example:
-{
-    "message": "Usuario creado exitosamente",
-    "status": 201,
-    "ok": true,
-    "data": null
-}
-*/
