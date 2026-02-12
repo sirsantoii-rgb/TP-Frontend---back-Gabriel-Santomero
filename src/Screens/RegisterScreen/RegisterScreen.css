@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap');
+
+.register-container {
+    font-family: 'Lato', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    background-color: #ffffff;
+    color: #1d1c1d;
+}
+
+.register-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.app-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.logo-icon { font-size: 32px; }
+.logo-text { font-weight: 900; font-size: 22px; }
+
+.register-header h1 {
+    font-size: 40px;
+    font-weight: 900;
+    margin-bottom: 8px;
+}
+
+.subtitle { color: #454245; font-size: 16px; }
+
+.register-main {
+    width: 100%;
+    max-width: 440px;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    border: 1px solid #868686;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: all 0.2s;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #1264a3;
+    box-shadow: 0 0 0 1px #1264a3, 0 0 0 4px rgba(18, 100, 163, 0.1);
+}
+
+.btn-primary {
+    background-color: #4a154b;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-primary:hover { background-color: #611f69; }
+.btn-primary:disabled { background-color: #dddddd; }
+
+.register-footer {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 14px;
+    color: #616061;
+}
+
+.register-footer a {
+    color: #1264a3;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.error-message {
+    background-color: #f7e8e8;
+    color: #e01e5a;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.success-message {
+    background-color: #f0fdf4;
+    color: #22c55e;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid #bbf7d0;
+    font-size: 15px;
+    line-height: 1.5;
+}

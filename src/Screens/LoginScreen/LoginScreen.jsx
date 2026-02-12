@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react'
-import { Link, useNavigate } from 'react-router'
-import useForm from '../../hooks/useForm'
-import useRequest from '../../hooks/useRequest'
-import { login } from '../../services/authService'
+import React from 'react'
+import { Link } from 'react-router'
 import useLogin from '../../hooks/useLogin'
+import './LoginScreen.css' // Importamos el CSS
 
 const LoginScreen = () => {
     const {
@@ -16,34 +14,63 @@ const LoginScreen = () => {
     } = useLogin()
 
     return (
-        <div>
-            <h1>Inicia sesion</h1>
-            <form onSubmit={onSubmitForm}>
-                <div>
-                    <label htmlFor="email">Email:</label>
-                    <input type="email" id="email" name="email" onChange={onChangeFieldValue} value={form_state.email} />
+        <div className="login-container">
+            <header className="login-header">
+                {/* Puedes reemplazar este div con una etiqueta img si tienes el logo de tu app */}
+                <div className="app-logo">
+                    <span className="logo-icon">🚀</span>
+                    <span className="logo-text">MiSlack</span>
                 </div>
-                <div>
-                    <label htmlFor="password">Contraseña:</label>
-                    <input type="password" id="password" name="password" onChange={onChangeFieldValue} value={form_state.password} />
+                <h1>Primero, introduce tu email</h1>
+                <p className="subtitle">Sugerimos usar la <strong>dirección de correo que usas en el trabajo.</strong></p>
+            </header>
+
+            <main className="login-main">
+                <form className="login-form" onSubmit={onSubmitForm}>
+                    <div className="input-group">
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            placeholder="nombre@email.com"
+                            onChange={onChangeFieldValue} 
+                            value={form_state.email} 
+                            required
+                        />
+                    </div>
+                    
+                    <div className="input-group">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            placeholder="Tu contraseña"
+                            onChange={onChangeFieldValue} 
+                            value={form_state.password} 
+                            required
+                        />
+                    </div>
+
+                    {error && <div className="error-message">{error.message}</div>}
+                    
+                    {response?.ok && (
+                        <div className="success-message">Te has logueado exitosamente</div>
+                    )}
+
+                    <button 
+                        className="btn-primary" 
+                        type="submit" 
+                        disabled={loading || response?.ok}
+                    >
+                        {loading ? 'Cargando...' : 'Continuar'}
+                    </button>
+                </form>
+
+                <div className="login-footer">
+                    <p>¿Olvidaste tu contraseña? <Link to="/forgot-password">Recupérala aquí</Link></p>
+                    <p>¿Aún no tienes cuenta? <Link to="/register">Regístrate</Link></p>
                 </div>
-                {
-                    error && <span style={{ color: 'red' }}>{error.message}</span>
-                }
-                {
-                    response
-                    &&
-                    response.ok
-                    &&
-                    <span style={{ color: 'yellowgreen' }}>
-                        Te has logueado exitosamente
-                    </span>
-                }
-                <button type="submit" disabled={loading || (response && response.ok)}>Iniciar sesion</button>
-            </form>
-            <span>
-                Aun no tienes cuenta? <Link to="/register">Registrate</Link>
-            </span>
+            </main>
         </div>
     )
 }
