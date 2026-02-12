@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { AuthContext } from "../Context/AuthContext"
-import { Navigate, Outlet } from "react-router-dom"
+import { Navigate, Outlet } from "react-router"
 
 function AuthMiddleware (){
     const {isLogged} = useContext(AuthContext)

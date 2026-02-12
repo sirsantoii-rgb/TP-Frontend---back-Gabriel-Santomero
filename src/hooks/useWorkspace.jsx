@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 
 const useWorkspace = () => {
     const { workspace_id } = useParams() // Captura el ID de la URL
