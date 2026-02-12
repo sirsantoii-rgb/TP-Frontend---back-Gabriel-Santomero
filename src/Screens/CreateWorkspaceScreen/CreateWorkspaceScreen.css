@@ -1,130 +1,139 @@
-.create-workspace-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #fceceb; /* A very subtle background */
-    font-family: 'Lato', sans-serif; /* Assuming a common font or system default */
-}
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap');
 
-.create-workspace-card {
-    background-color: white;
-    padding: 3rem;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    width: 100%;
-    max-width: 600px;
+.create-workspace-container {
+    font-family: 'Lato', sans-serif;
+    min-height: 100vh;
+    background-color: #ffffff;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    align-items: center;
+}
+
+/* Nav superior igual al login */
+.create-header-nav {
+    width: 100%;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.app-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-text { font-weight: 900; font-size: 24px; color: #1d1c1d; }
+
+/* Contenido Principal */
+.create-workspace-main {
+    width: 100%;
+    max-width: 600px;
+    padding: 40px 20px;
+}
+
+.create-workspace-header {
+    margin-bottom: 32px;
 }
 
 .create-workspace-header h1 {
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 48px;
+    font-weight: 900;
     color: #1d1c1d;
-    margin-bottom: 0.5rem;
-    text-align: center;
+    margin-bottom: 12px;
+    letter-spacing: -1px;
 }
 
-.create-workspace-header p {
-    color: #616061;
-    text-align: center;
-    margin-bottom: 1rem;
+.subtitle {
+    font-size: 18px;
+    color: #454245;
+    line-height: 1.4;
 }
 
 .workspace-form {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 24px;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 8px;
 }
 
 .form-label {
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 16px;
     color: #1d1c1d;
 }
 
-.form-input,
-.form-textarea {
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-    transition: border-color 0.2s;
-    outline: none;
+.form-input, .form-textarea {
+    padding: 16px;
+    font-size: 18px;
+    border: 1px solid #868686;
+    border-radius: 8px;
     width: 100%;
     box-sizing: border-box;
+    transition: all 0.2s;
 }
 
-.form-input:focus,
-.form-textarea:focus {
+.form-input:focus, .form-textarea:focus {
+    outline: none;
     border-color: #1264a3;
-    box-shadow: 0 0 0 4px rgba(29, 155, 209, 0.1);
+    box-shadow: 0 0 0 1px #1264a3, 0 0 0 4px rgba(18, 100, 163, 0.1);
 }
 
 .form-textarea {
+    min-height: 150px;
     resize: vertical;
-    min-height: 120px;
 }
 
 .char-counter {
     text-align: right;
-    font-size: 0.8rem;
+    font-size: 12px;
     color: #616061;
-    margin-top: 0.25rem;
+    margin-top: 4px;
 }
 
-.char-counter.limit-near {
-    color: #e8912d;
-}
-
-.char-counter.limit-reached {
-    color: #e01e5a;
-}
-
-.error-message {
-    color: #e01e5a;
-    font-size: 0.85rem;
-    margin-top: 0.25rem;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.submit-btn {
-    background-color: #007a5a; /* Slack Green */
+.btn-primary {
+    background-color: #4a154b;
     color: white;
     border: none;
-    padding: 14px;
-    font-size: 1rem;
+    padding: 16px;
+    font-size: 18px;
     font-weight: 700;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.2s;
-    margin-top: 1rem;
+    margin-top: 10px;
 }
 
-.submit-btn:hover {
-    background-color: #148567;
+.btn-primary:hover {
+    background-color: #611f69;
+}
+
+.btn-primary:disabled {
+    background-color: #dddddd;
+    cursor: not-allowed;
+}
+
+.error-box {
+    background-color: #f7e8e8;
+    color: #e01e5a;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
 }
 
 .back-link {
-    text-align: center;
-    margin-top: 1rem;
+    margin-top: 32px;
+    text-align: left;
 }
 
 .back-link a {
     color: #1264a3;
     text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: 700;
 }
 
 .back-link a:hover {

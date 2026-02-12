@@ -15,10 +15,19 @@ const CreateWorkspaceScreen = () => {
 
     return (
         <div className="create-workspace-container">
-            <div className="create-workspace-card">
+            <header className="create-header-nav">
+                <div className="app-logo">
+                    <span className="logo-icon">🚀</span>
+                    <span className="logo-text">MiSlack</span>
+                </div>
+            </header>
+
+            <main className="create-workspace-main">
                 <header className="create-workspace-header">
-                    <h1>Crear un nuevo espacio de trabajo</h1>
-                    <p>Los espacios de trabajo son donde tu equipo se comunica.</p>
+                    <h1>¿Cómo se llama tu equipo?</h1>
+                    <p className="subtitle">
+                        Este será el nombre de tu espacio de trabajo de MiSlack. Elige algo que tu equipo reconozca.
+                    </p>
                 </header>
 
                 <form className="workspace-form" onSubmit={onSubmitForm}>
@@ -29,7 +38,7 @@ const CreateWorkspaceScreen = () => {
                             id="title"
                             name="title"
                             className="form-input"
-                            placeholder="Ej. Proyecto Alpha"
+                            placeholder="Ej. Marketing, Ventas, Proyecto Final"
                             value={form_state.title}
                             onChange={onChangeFieldValue}
                             disabled={isLoading}
@@ -38,12 +47,12 @@ const CreateWorkspaceScreen = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="description" className="form-label">Descripción</label>
+                        <label htmlFor="description" className="form-label">Descripción (opcional)</label>
                         <textarea
                             id="description"
                             name="description"
                             className="form-textarea"
-                            placeholder="¿De qué trata este espacio?"
+                            placeholder="¿En qué está trabajando tu equipo?"
                             value={form_state.description}
                             onChange={onChangeFieldValue}
                             disabled={isLoading}
@@ -54,17 +63,21 @@ const CreateWorkspaceScreen = () => {
                         {errors.description && <span className="error-message">⚠️ {errors.description}</span>}
                     </div>
 
-                    {error && <div className="error-message">Error al crear el workspace: {error.message}</div>}
+                    {error && <div className="error-box">Error al crear el workspace: {error.message}</div>}
 
-                    <button type="submit" className="submit-btn" disabled={form_state.description.length > 1000 || isLoading}>
+                    <button 
+                        type="submit" 
+                        className="btn-primary" 
+                        disabled={form_state.description.length > 1000 || isLoading}
+                    >
                         {isLoading ? 'Creando...' : 'Crear espacio de trabajo'}
                     </button>
                 </form>
 
                 <div className="back-link">
-                    <Link to="/home">Volver a la lista de workspaces</Link>
+                    <Link to="/home">Volver atrás</Link>
                 </div>
-            </div>
+            </main>
         </div>
     );
 };
