@@ -1,6 +1,9 @@
 import { useState } from "react"
 
-
+/* 
+Este hook tiene la responsabilidad de manejar las consultas
+Particularmente maneja el estado de consulta que siempre suele ser el mismo (error, response, loading)
+*/
 function useRequest (){
     const [loading, setLoading] = useState(false)
     const [response, setResponse] = useState(null)
