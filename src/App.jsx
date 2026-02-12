@@ -32,10 +32,7 @@ function App() {
           <Route path='/create-workspace' element={<CreateWorkspaceScreen />} />
           
           {/* 2. Añadir la ruta del Workspace con el parámetro :workspace_id */}
-          <Route 
-  path="/workspace/:workspace_id" 
-  element={<WorkspaceScreen key={window.location.pathname} />} 
-/>
+          <Route path='/workspace' element={<WorkspaceScreen />} />
         </Route>
       </Routes>
     </AuthContextProvider>
