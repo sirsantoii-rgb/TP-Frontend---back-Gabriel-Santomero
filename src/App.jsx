@@ -9,7 +9,7 @@ import AuthMiddleware from './Middlewares/AuthMiddleware'
 import WorkspaceContextProvider from './Context/WorkspaceContext'
 import HomeScreen from './Screens/HomeScreen/HomeScreen'
 import CreateWorkspaceScreen from './Screens/CreateWorkspaceScreen/CreateWorkspaceScreen'
-import WorkspaceScreen from './Screens/WorkspaceScreen/WorkspaceScreen' // 1. Importar la nueva pantalla
+import WorkspaceScreen from './Screens/WorkspaceScreen/WorkspaceScreen.jsx' // 1. Importar la nueva pantalla
 
 function App() {
   return (
