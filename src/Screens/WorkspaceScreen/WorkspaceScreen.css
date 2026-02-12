@@ -1,0 +1,201 @@
+.workspace-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    height: 100vh;
+    overflow: hidden;
+    background-color: white;
+}
+
+/* SIDEBAR */
+.sidebar {
+    background-color: #3f0e40; /* Color Berenjena Slack */
+    color: #bcabbc;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    padding: 15px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.team-name-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-weight: 900;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.new-message-btn {
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.sidebar-section {
+    margin-top: 20px;
+}
+
+.section-title {
+    padding: 0 16px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.add-btn {
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.channel-list, .dm-list {
+    list-style: none;
+    padding: 0;
+}
+
+.channel-item, .dm-item {
+    padding: 6px 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+}
+
+.channel-item:hover, .dm-item:hover {
+    background-color: #350d36;
+}
+
+.channel-item.active {
+    background-color: #1164a3;
+    color: white;
+}
+
+.hashtag { opacity: 0.6; font-weight: bold; }
+
+/* CHAT CONTAINER */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.chat-header {
+    height: 64px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.chat-header h2 { font-size: 18px; font-weight: 900; }
+
+.invite-btn {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.messages-display {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+/* MENSAJES */
+.message-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    background: #e01e5a;
+    color: white;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.user-name { font-weight: 900; font-size: 15px; }
+.user-name small { font-weight: 400; color: #616061; margin-left: 8px; font-size: 12px; }
+
+/* INPUT */
+.message-input-area {
+    padding: 0 20px 20px 20px;
+}
+
+.input-wrapper {
+    border: 1px solid #868686;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.input-wrapper textarea {
+    width: 100%;
+    min-height: 80px;
+    border: none;
+    padding: 12px;
+    font-size: 15px;
+    resize: none;
+    outline: none;
+}
+
+.input-toolbar {
+    background: #f8f8f8;
+    padding: 8px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.send-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0.3;
+}
+
+.send-btn.active { opacity: 1; }
+
+/* LOADING & EMPTY STATES */
+.workspace-loading, .no-channel-selected {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #616061;
+}
+
+.welcome-hero { text-align: center; }
+.hero-icon { font-size: 60px; display: block; margin-bottom: 20px; }
