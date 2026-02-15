@@ -15,14 +15,14 @@ const useWorkspace = () => {
         try {
             // 1. Traer datos del Workspace (nombre, etc)
             // Usamos tu ruta: GET /api/workspaces/:workspace_id
-            const workspaceRes = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspaces/${workspace_id}`, {
+            const workspaceRes = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspace/${workspace_id}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             })
             const workspaceData = await workspaceRes.json()
 
             // 2. Traer canales del Workspace
             // Usamos tu ruta: GET /api/workspaces/:workspace_id/channels
-            const channelsRes = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspaces/${workspace_id}/channels`, {
+            const channelsRes = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspace/${workspace_id}/channels`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             })
             const channelsData = await channelsRes.json()
