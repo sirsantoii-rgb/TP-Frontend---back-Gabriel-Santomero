@@ -33,7 +33,7 @@ const WorkspaceScreen = () => {
         try {
             const response = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspace/${workspace_id}/channels/${channel._id}`, {
                 method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` }
             });
             const data = await response.json();
             if (data.ok) {
@@ -52,7 +52,7 @@ const WorkspaceScreen = () => {
                 method: 'PUT',
                 headers: { 
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}` 
+                    'Authorization': `Bearer ${localStorage.getItem('auth_token')}` 
                 },
                 body: JSON.stringify({ name: newName })
             });
