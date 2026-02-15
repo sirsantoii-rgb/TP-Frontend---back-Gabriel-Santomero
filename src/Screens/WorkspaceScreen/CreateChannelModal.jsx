@@ -16,7 +16,7 @@ const CreateChannelModal = ({ isOpen, onClose, onCreate, workspaceId }) => {
         const token = localStorage.getItem('token');
 
         try {
-            const response = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspaces/${workspaceId}/channels`, {
+            const response = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspace/${workspaceId}/channels`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
