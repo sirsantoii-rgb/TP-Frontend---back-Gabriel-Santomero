@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useWorkspace from '../../hooks/useWorkspace';
 import CreateChannelModal from './CreateChannelModal'; 
 import ChannelItem from './ChannelItem';
+import MessageItem from './MessageItem';
 import './WorkspaceScreen.css';
 
 const WorkspaceScreen = () => {
@@ -15,13 +16,38 @@ const WorkspaceScreen = () => {
     } = useWorkspace();
 
     const [activeChannelId, setActiveChannelId] = useState(null);
+    const [messages, setMessages] = useState([]);
     const [messageText, setMessageText] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [loadingMessages, setLoadingMessages] = useState(false);
 
     const activeChannel = channels.find(c => c._id === activeChannelId);
 
-    // --- MANEJADORES DE EVENTOS DE CANAL ---
+    // --- CARGAR MENSAJES AL CAMBIAR CANAL ---
+    useEffect(() => {
+        if (activeChannelId) {
+            fetchMessages();
+        }
+    }, [activeChannelId]);
 
+    const fetchMessages = async () => {
+        setLoadingMessages(true);
+        try {
+            const response = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/messages/${activeChannelId}`, {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` }
+            });
+            const data = await response.json();
+            if (data.ok) {
+                setMessages(data.data.messages);
+            }
+        } catch (err) {
+            console.error("Error al obtener mensajes:", err);
+        } finally {
+            setLoadingMessages(false);
+        }
+    };
+
+    // --- MANEJADORES DE CANAL ---
     const handleChannelCreated = (newChannel) => {
         refetchChannels(); 
         if (newChannel?._id) setActiveChannelId(newChannel._id); 
@@ -29,7 +55,6 @@ const WorkspaceScreen = () => {
 
     const handleDeleteChannel = async (channel) => {
         if (!window.confirm(`¿Seguro que quieres eliminar #${channel.name}?`)) return;
-        
         try {
             const response = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspace/${workspace_id}/channels/${channel._id}`, {
                 method: 'DELETE',
@@ -46,7 +71,6 @@ const WorkspaceScreen = () => {
     const handleRenameChannel = async (channel) => {
         const newName = window.prompt("Nuevo nombre:", channel.name);
         if (!newName || newName === channel.name) return;
-
         try {
             const response = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspace/${workspace_id}/channels/${channel._id}`, {
                 method: 'PUT',
@@ -56,22 +80,38 @@ const WorkspaceScreen = () => {
                 },
                 body: JSON.stringify({ name: newName })
             });
-            const data = await response.json();
-            if (data.ok) refetchChannels();
+            if ((await response.json()).ok) refetchChannels();
         } catch (err) { console.error(err); }
     };
 
     const handleInfoChannel = (channel) => {
-        alert(`Canal: #${channel.name}\nCreado: ${new Date(channel.created_at).toLocaleDateString()}`);
+        alert(`Canal: #${channel.name}\nID: ${channel._id}`);
     };
 
-    // --- MENSAJES ---
-
-    const handleSendMessage = (e) => {
+    // --- LÓGICA DE MENSAJES ---
+    const handleSendMessage = async (e) => {
         if (e) e.preventDefault();
         if (!messageText.trim()) return;
-        console.log(`Enviando a #${activeChannel?.name}:`, messageText);
-        setMessageText(''); 
+
+        const textToSend = messageText;
+        setMessageText(''); // Limpieza inmediata (Optimistic UI)
+
+        try {
+            const response = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/messages/${activeChannelId}`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('auth_token')}` 
+                },
+                body: JSON.stringify({ content: textToSend })
+            });
+            const data = await response.json();
+            if (data.ok) {
+                fetchMessages(); // Recargar lista para ver el nuevo mensaje
+            }
+        } catch (err) {
+            console.error("Error enviando mensaje:", err);
+        }
     };
 
     const handleKeyDown = (e) => {
@@ -118,16 +158,6 @@ const WorkspaceScreen = () => {
                             )}
                         </ul>
                     </div>
-
-                    <div className="sidebar-section">
-                        <div className="section-title">
-                            <span>▼ Mensajes directos</span>
-                            <button className="add-btn">+</button>
-                        </div>
-                        <ul className="dm-list">
-                            <li className="dm-item"><span className="status-online"></span> Gabriel (tú)</li>
-                        </ul>
-                    </div>
                 </nav>
             </aside>
 
@@ -135,15 +165,22 @@ const WorkspaceScreen = () => {
                 {activeChannelId ? (
                     <>
                         <header className="chat-header">
-                            <h2><span className="hashtag">#</span> {activeChannel?.name} <span>⭐</span></h2>
-                            <button className="invite-btn">👤 Añadir gente</button>
+                            <h2><span className="hashtag">#</span> {activeChannel?.name}</h2>
                         </header>
+                        
                         <section className="messages-display">
-                            <div className="message-item-welcome">
-                                <h3>¡Bienvenido a #{activeChannel?.name}!</h3>
-                                <p>Este es el inicio del canal.</p>
-                            </div>
+                            {loadingMessages ? (
+                                <div className="messages-loading">Cargando mensajes...</div>
+                            ) : messages.length > 0 ? (
+                                messages.map(msg => <MessageItem key={msg._id} message={msg} />)
+                            ) : (
+                                <div className="message-item-welcome">
+                                    <h3>¡Bienvenido a #{activeChannel?.name}!</h3>
+                                    <p>Este es el inicio del canal.</p>
+                                </div>
+                            )}
                         </section>
+
                         <footer className="message-input-area">
                             <div className="input-wrapper">
                                 <textarea 
@@ -153,7 +190,13 @@ const WorkspaceScreen = () => {
                                     onKeyDown={handleKeyDown}
                                 />
                                 <div className="input-toolbar">
-                                    <button className={`send-btn ${messageText.trim() ? 'active' : ''}`} onClick={handleSendMessage}>➡️</button>
+                                    <button 
+                                        className={`send-btn ${messageText.trim() ? 'active' : ''}`} 
+                                        onClick={handleSendMessage}
+                                        disabled={!messageText.trim()}
+                                    >
+                                        ➡️
+                                    </button>
                                 </div>
                             </div>
                         </footer>

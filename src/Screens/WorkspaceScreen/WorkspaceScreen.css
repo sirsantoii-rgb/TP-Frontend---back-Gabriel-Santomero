@@ -1,3 +1,96 @@
+/* REESCALADO MÍNIMO */
+.workspace-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    height: 100vh;
+    min-width: 320px; /* Requisito de 320px */
+    overflow: hidden;
+}
+
+/* ESTILOS DE MENSAJES */
+.messages-display {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.message-item {
+    display: flex;
+    gap: 12px;
+    padding: 8px 20px;
+    transition: background 0.15s ease;
+}
+
+.message-item:hover {
+    background-color: #f8f8f8;
+}
+
+.user-avatar {
+    width: 38px;
+    height: 38px;
+    background-color: #3f0e40;
+    color: white;
+    border-radius: 6px; /* Cuadradito redondeado */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+    font-size: 16px;
+}
+
+.message-content {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.message-header {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 2px;
+}
+
+.user-name {
+    font-weight: 900;
+    font-size: 15px;
+    color: #1d1c1d;
+}
+
+.message-time {
+    font-size: 12px;
+    color: #616061;
+}
+
+.message-text {
+    font-size: 15px;
+    line-height: 1.46;
+    color: #1d1c1d;
+    margin: 0;
+    word-wrap: break-word;
+}
+
+.messages-loading {
+    padding: 20px;
+    text-align: center;
+    color: #616061;
+    font-style: italic;
+}
+
+/* Ajustes responsivos básicos para 320px */
+@media (max-width: 480px) {
+    .workspace-layout {
+        grid-template-columns: 70px 1fr;
+    }
+    .sidebar-header, .section-title span, .team-name-button {
+        display: none;
+    }
+    .sidebar { min-width: 70px; }
+}
+
 .workspace-layout {
     display: grid;
     grid-template-columns: 260px 1fr;
