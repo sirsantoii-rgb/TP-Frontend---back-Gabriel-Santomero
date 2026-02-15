@@ -4,7 +4,47 @@ import { WorkspaceContext } from '../../Context/WorkspaceContext'
 import './HomeScreen.css'
 
 const HomeScreen = () => {
-    const { workspace_list_loading, workspace_list_error, workspace_list } = useContext(WorkspaceContext)
+    // Asumimos que refetchWorkspaces es una función en tu context para recargar la lista
+    const { 
+        workspace_list_loading, 
+        workspace_list_error, 
+        workspace_list,
+        refetchWorkspaces 
+    } = useContext(WorkspaceContext)
+
+    const handleDeleteWorkspace = async (e, workspaceId, title) => {
+        e.preventDefault(); // Evita cualquier navegación accidental
+        
+        const confirmDelete = window.confirm(`¿Estás seguro de que deseas eliminar el espacio "${title}"? Esta acción no se puede deshacer.`);
+        
+        if (!confirmDelete) return;
+
+        try {
+            const response = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspace/${workspaceId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
+                }
+            });
+
+            const data = await response.json();
+
+            if (data.ok) {
+                alert("Espacio eliminado con éxito");
+                // Si tienes la función en el context, úsala. Si no, recarga la página.
+                if (refetchWorkspaces) {
+                    refetchWorkspaces();
+                } else {
+                    window.location.reload();
+                }
+            } else {
+                alert(data.message || "Error al eliminar");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("No se pudo conectar con el servidor");
+        }
+    };
 
     if (workspace_list_loading || !workspace_list) {
         return (
@@ -58,9 +98,18 @@ const HomeScreen = () => {
                                             <span>{workspace.members_count || 1} miembros</span>
                                         </div>
                                     </div>
-                                    <Link to={`/workspace/${workspace.workspace_id}`} className="btn-open">
-                                        ABRIR
-                                    </Link>
+                                    <div className="workspace-actions">
+                                        <Link to={`/workspace/${workspace.workspace_id}`} className="btn-open">
+                                            ABRIR
+                                        </Link>
+                                        <button 
+                                            className="btn-delete-workspace"
+                                            onClick={(e) => handleDeleteWorkspace(e, workspace.workspace_id, workspace.workspace_title)}
+                                            title="Eliminar espacio"
+                                        >
+                                            🗑️
+                                        </button>
+                                    </div>
                                 </div>
                             ))
                         ) : (
@@ -82,4 +131,4 @@ const HomeScreen = () => {
     )
 }
 
-export default HomeScreen
+export default HomeScreen;

@@ -140,4 +140,55 @@
     animation: spin 1s linear infinite;
 }
 
+/* Acciones del Workspace */
+.workspace-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.btn-delete-workspace {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background 0.2s, transform 0.1s;
+    opacity: 0.6;
+}
+
+.btn-delete-workspace:hover {
+    background-color: #fff1f3;
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Ajuste para que el texto de abrir no se pegue */
+.btn-open {
+    text-decoration: none;
+    color: #1264a3;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+/* Responsive para pantallas pequeñas (320px) */
+@media (max-width: 480px) {
+    .workspace-item {
+        padding: 15px;
+    }
+    .workspace-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+    .workspace-details h3 {
+        font-size: 16px;
+    }
+    .workspace-actions {
+        gap: 10px;
+    }
+}
+
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
