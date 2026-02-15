@@ -16,6 +16,12 @@
     flex-direction: column;
 }
 
+.toggle-section-btn
+{
+    background: none;
+border: none;
+font-weight: 500;
+color: #ddd;}
 .message-item {
     display: flex;
     gap: 12px;
