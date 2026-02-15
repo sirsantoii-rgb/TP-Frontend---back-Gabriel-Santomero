@@ -31,19 +31,20 @@ const WorkspaceScreen = () => {
     }, [activeChannelId]);
 
     const fetchMessages = async () => {
-    if (!workspace_id || !activeChannelId) return; // Validación de seguridad
+    if (!workspace_id || !activeChannelId) return;
     setLoadingMessages(true);
     try {
-        // Ajustamos la ruta: /api/messages/:workspace_id/:channel_id
-        const response = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/messages/${workspace_id}/${activeChannelId}`, {
-            headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` }
-        });
+        // La ruta exacta según tu workspaceRouter
+        const response = await fetch(
+            `https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspace/${workspace_id}/channels/${activeChannelId}/messages`, 
+            {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` }
+            }
+        );
         
         const data = await response.json();
         if (data.ok) {
             setMessages(data.data.messages);
-        } else {
-            console.error("Error del servidor:", data.message);
         }
     } catch (err) {
         console.error("Error al obtener mensajes:", err);
@@ -102,15 +103,17 @@ const WorkspaceScreen = () => {
     setMessageText(''); 
 
     try {
-        // Ajustamos la ruta también aquí para el POST
-        const response = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/messages/${workspace_id}/${activeChannelId}`, {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('auth_token')}` 
-            },
-            body: JSON.stringify({ content: textToSend })
-        });
+        const response = await fetch(
+            `https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspace/${workspace_id}/channels/${activeChannelId}/messages`, 
+            {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('auth_token')}` 
+                },
+                body: JSON.stringify({ content: textToSend })
+            }
+        );
         const data = await response.json();
         if (data.ok) {
             fetchMessages(); 
