@@ -140,7 +140,7 @@ const WorkspaceScreen = () => {
             <aside className="sidebar">
                 <header className="sidebar-header">
                     <button className="team-name-button">
-                        {workspace?.title || 'Mi Equipo'} <span className="chevron">▼</span>
+                        {workspace?.title || 'Mi Equipo'} 
                     </button>
                     <button className="new-message-btn" title="Nuevo mensaje">📝</button>
                 </header>
