@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useWorkspace from '../../hooks/useWorkspace';
 import CreateChannelModal from './CreateChannelModal'; 
-import ChannelItem from './ChannelItem'; // Importamos el nuevo componente
+import ChannelItem from './ChannelItem'; // Importamos el subcomponente
 import './WorkspaceScreen.css';
 
 const WorkspaceScreen = () => {
@@ -20,7 +20,7 @@ const WorkspaceScreen = () => {
 
     const activeChannel = channels.find(c => c._id === activeChannelId);
 
-    // --- LÓGICA DE CANALES (CRUD) ---
+    // --- MANEJADORES DE EVENTOS DE CANAL ---
 
     const handleChannelCreated = (newChannel) => {
         refetchChannels(); 
@@ -28,48 +28,49 @@ const WorkspaceScreen = () => {
     };
 
     const handleDeleteChannel = async (channel) => {
-        if (!window.confirm(`¿Estás seguro de que deseas eliminar el canal #${channel.name}? Esta acción es permanente.`)) return;
-
-        const token = localStorage.getItem('token');
+        if (!window.confirm(`¿Seguro que quieres eliminar #${channel.name}?`)) return;
+        
         try {
             const response = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/channels/${workspace_id}/${channel._id}`, {
                 method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${token}` }
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
             });
             const data = await response.json();
             if (data.ok) {
                 refetchChannels();
                 if (activeChannelId === channel._id) setActiveChannelId(null);
             }
-        } catch (err) { console.error("Error al borrar:", err); }
+        } catch (err) { console.error(err); }
     };
 
     const handleRenameChannel = async (channel) => {
-        const newName = window.prompt("Ingresa el nuevo nombre del canal:", channel.name);
+        const newName = window.prompt("Nuevo nombre:", channel.name);
         if (!newName || newName === channel.name) return;
 
-        const token = localStorage.getItem('token');
         try {
             const response = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/channels/${workspace_id}/${channel._id}`, {
                 method: 'PUT',
                 headers: { 
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` 
+                    'Authorization': `Bearer ${localStorage.getItem('token')}` 
                 },
                 body: JSON.stringify({ name: newName })
             });
             const data = await response.json();
             if (data.ok) refetchChannels();
-        } catch (err) { console.error("Error al renombrar:", err); }
+        } catch (err) { console.error(err); }
     };
 
     const handleInfoChannel = (channel) => {
-        alert(`Canal: #${channel.name}\nWorkspace ID: ${workspace_id}\nCreado el: ${new Date(channel.created_at || Date.now()).toLocaleDateString()}`);
+        alert(`Canal: #${channel.name}\nCreado: ${new Date(channel.created_at).toLocaleDateString()}`);
     };
+
+    // --- MENSAJES ---
 
     const handleSendMessage = (e) => {
         if (e) e.preventDefault();
         if (!messageText.trim()) return;
+        console.log(`Enviando a #${activeChannel?.name}:`, messageText);
         setMessageText(''); 
     };
 
@@ -90,7 +91,7 @@ const WorkspaceScreen = () => {
                     <button className="team-name-button">
                         {workspace?.title || 'Mi Equipo'} <span className="chevron">▼</span>
                     </button>
-                    <button className="new-message-btn">📝</button>
+                    <button className="new-message-btn" title="Nuevo mensaje">📝</button>
                 </header>
 
                 <nav className="sidebar-nav">
@@ -113,8 +114,18 @@ const WorkspaceScreen = () => {
                                     />
                                 ))
                             ) : (
-                                <li className="no-data">No hay canales</li>
+                                <li className="no-data">No hay canales aún</li>
                             )}
+                        </ul>
+                    </div>
+
+                    <div className="sidebar-section">
+                        <div className="section-title">
+                            <span>▼ Mensajes directos</span>
+                            <button className="add-btn">+</button>
+                        </div>
+                        <ul className="dm-list">
+                            <li className="dm-item"><span className="status-online"></span> Gabriel (tú)</li>
                         </ul>
                     </div>
                 </nav>
@@ -124,11 +135,13 @@ const WorkspaceScreen = () => {
                 {activeChannelId ? (
                     <>
                         <header className="chat-header">
-                            <h2><span className="hashtag">#</span> {activeChannel?.name}</h2>
+                            <h2><span className="hashtag">#</span> {activeChannel?.name} <span>⭐</span></h2>
+                            <button className="invite-btn">👤 Añadir gente</button>
                         </header>
                         <section className="messages-display">
                             <div className="message-item-welcome">
                                 <h3>¡Bienvenido a #{activeChannel?.name}!</h3>
+                                <p>Este es el inicio del canal.</p>
                             </div>
                         </section>
                         <footer className="message-input-area">
@@ -147,7 +160,11 @@ const WorkspaceScreen = () => {
                     </>
                 ) : (
                     <div className="no-channel-selected">
-                        <h2>Bienvenido a {workspace?.title}</h2>
+                        <div className="welcome-hero">
+                            <span className="hero-icon">💬</span>
+                            <h2>Bienvenido a {workspace?.title}</h2>
+                            <p>Selecciona un canal para comenzar.</p>
+                        </div>
                     </div>
                 )}
             </main>
