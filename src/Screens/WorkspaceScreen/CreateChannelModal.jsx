@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import './CreateChannelModal.css';
 
 const CreateChannelModal = ({ isOpen, onClose, onCreate, workspaceId }) => {
-    const [channelName, setChannelName] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [name, setName] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    if (!isOpen) return null;
+    if (!isOpen) return null; // Si no está abierto, no renderiza nada
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
+        if (!name.trim()) return;
+
+        setIsSubmitting(true);
         const token = localStorage.getItem('token');
 
         try {
@@ -19,53 +21,61 @@ const CreateChannelModal = ({ isOpen, onClose, onCreate, workspaceId }) => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ name: channelName })
+                body: JSON.stringify({ name: name.trim() })
             });
 
             const data = await response.json();
+
             if (data.ok) {
-                onCreate(data.data.channel_created); // Notificamos al padre
-                setChannelName('');
-                onClose();
+                onCreate(data.data.channel_created); // Notifica al padre para actualizar lista
+                setName('');
+                onClose(); // Cierra el modal
             } else {
-                alert(data.message);
+                alert(data.message || "Error al crear el canal");
             }
         } catch (error) {
-            console.error("Error al crear canal:", error);
+            console.error("Error:", error);
+            alert("Error de conexión");
         } finally {
-            setLoading(false);
+            setIsSubmitting(false);
         }
     };
 
     return (
-        <div className="modal-overlay">
-            <div className="modal-content">
-                <header className="modal-header">
+        <div className="modal-overlay" onClick={onClose}>
+            <div className="modal-content" onClick={e => e.stopPropagation()}>
+                <div className="modal-header">
                     <h2>Crear un canal</h2>
-                    <button className="close-btn" onClick={onClose}>&times;</button>
-                </header>
-                <p className="modal-subtitle">Los canales son el lugar donde los miembros se comunican.</p>
-                
+                    <button className="close-x" onClick={onClose}>&times;</button>
+                </div>
+                <p className="modal-description">
+                    Los canales son el lugar donde tu equipo se comunica. Son mejores cuando se organizan en torno a un tema.
+                </p>
                 <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label>Nombre</label>
-                        <div className="input-prefix">
-                            <span className="hashtag">#</span>
-                            <input 
-                                type="text" 
-                                placeholder="ej. plan-de-marketing" 
-                                value={channelName}
-                                onChange={(e) => setChannelName(e.target.value)}
-                                required
+                    <div className="input-group">
+                        <label htmlFor="channel-name">Nombre</label>
+                        <div className="input-wrapper-modal">
+                            <span className="hash-prefix">#</span>
+                            <input
+                                id="channel-name"
+                                type="text"
+                                placeholder="ej. plan-de-marketing"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                autoFocus
                             />
                         </div>
                     </div>
-                    <footer className="modal-footer">
+                    <div className="modal-actions">
                         <button type="button" className="btn-cancel" onClick={onClose}>Cancelar</button>
-                        <button type="submit" className="btn-submit" disabled={loading || !channelName}>
-                            {loading ? 'Creando...' : 'Crear'}
+                        <button 
+                            type="submit" 
+                            className="btn-create" 
+                            disabled={!name.trim() || isSubmitting}
+                        >
+                            {isSubmitting ? 'Creando...' : 'Crear'}
                         </button>
-                    </footer>
+                    </div>
                 </form>
             </div>
         </div>
