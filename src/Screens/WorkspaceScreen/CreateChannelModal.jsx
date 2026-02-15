@@ -5,7 +5,8 @@ const CreateChannelModal = ({ isOpen, onClose, onCreate, workspaceId }) => {
     const [name, setName] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    if (!isOpen) return null; // Si no está abierto, no renderiza nada
+    // Si el modal no está abierto, no renderizamos nada
+    if (!isOpen) return null;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -27,15 +28,16 @@ const CreateChannelModal = ({ isOpen, onClose, onCreate, workspaceId }) => {
             const data = await response.json();
 
             if (data.ok) {
-                onCreate(data.data.channel_created); // Notifica al padre para actualizar lista
+                // Notificamos al padre y limpiamos
+                onCreate(data.data.channel_created);
                 setName('');
-                onClose(); // Cierra el modal
+                onClose();
             } else {
                 alert(data.message || "Error al crear el canal");
             }
         } catch (error) {
             console.error("Error:", error);
-            alert("Error de conexión");
+            alert("Error de conexión con el servidor");
         } finally {
             setIsSubmitting(false);
         }
@@ -43,16 +45,16 @@ const CreateChannelModal = ({ isOpen, onClose, onCreate, workspaceId }) => {
 
     return (
         <div className="modal-overlay" onClick={onClose}>
-            <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <div className="modal-header">
                     <h2>Crear un canal</h2>
                     <button className="close-x" onClick={onClose}>&times;</button>
                 </div>
                 <p className="modal-description">
-                    Los canales son el lugar donde tu equipo se comunica. Son mejores cuando se organizan en torno a un tema.
+                    Los canales son donde tu equipo se comunica. Son mejores cuando se organizan en torno a un tema (ej: #proyectos).
                 </p>
                 <form onSubmit={handleSubmit}>
-                    <div className="input-group">
+                    <div className="form-group">
                         <label htmlFor="channel-name">Nombre</label>
                         <div className="input-wrapper-modal">
                             <span className="hash-prefix">#</span>
@@ -63,11 +65,14 @@ const CreateChannelModal = ({ isOpen, onClose, onCreate, workspaceId }) => {
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 autoFocus
+                                autoComplete="off"
                             />
                         </div>
                     </div>
                     <div className="modal-actions">
-                        <button type="button" className="btn-cancel" onClick={onClose}>Cancelar</button>
+                        <button type="button" className="btn-cancel" onClick={onClose}>
+                            Cancelar
+                        </button>
                         <button 
                             type="submit" 
                             className="btn-create" 

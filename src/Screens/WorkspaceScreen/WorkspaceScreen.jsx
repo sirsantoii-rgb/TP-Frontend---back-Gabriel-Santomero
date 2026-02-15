@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import useWorkspace from '../../hooks/useWorkspace';
-import CreateChannelModal from './CreateChannelModal'; // Asegúrate de que la ruta sea correcta
+import CreateChannelModal from './CreateChannelModal'; 
 import './WorkspaceScreen.css';
 
 const WorkspaceScreen = () => {
@@ -10,20 +10,45 @@ const WorkspaceScreen = () => {
         loading, 
         error, 
         workspace_id,
-        refetchChannels // Usamos esta función del hook para actualizar la lista
+        refetchChannels 
     } = useWorkspace();
 
     const [activeChannelId, setActiveChannelId] = useState(null);
     const [messageText, setMessageText] = useState('');
-    const [isModalOpen, setIsModalOpen] = useState(false); // Estado para el Modal
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
+    // Buscamos el objeto del canal activo
     const activeChannel = channels.find(c => c._id === activeChannelId);
 
-    // Función que se ejecuta cuando el modal crea el canal con éxito
+    // --- MANEJADORES DE EVENTOS ---
+
     const handleChannelCreated = (newChannel) => {
-        refetchChannels(); // Recarga la lista de canales desde el backend
-        setActiveChannelId(newChannel._id); // Opcional: selecciona el nuevo canal automáticamente
+        refetchChannels(); 
+        if (newChannel?._id) {
+            setActiveChannelId(newChannel._id); 
+        }
     };
+
+    const handleSendMessage = (e) => {
+        if (e) e.preventDefault();
+        if (!messageText.trim()) return;
+
+        // Por ahora lo mostramos en consola hasta conectar el hook de mensajes
+        console.log(`Enviando a #${activeChannel?.name}:`, messageText);
+        
+        // Aquí irá la lógica de fetch para guardar el mensaje
+        setMessageText(''); 
+    };
+
+    const handleKeyDown = (e) => {
+        // Enviar con Enter, pero permitir salto de línea con Shift+Enter
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSendMessage();
+        }
+    };
+
+    // --- RENDERIZADO CONDICIONAL ---
 
     if (loading) return (
         <div className="workspace-loading">
@@ -36,6 +61,7 @@ const WorkspaceScreen = () => {
 
     return (
         <div className="workspace-layout">
+            {/* COLUMNA 1: SIDEBAR */}
             <aside className="sidebar">
                 <header className="sidebar-header">
                     <button className="team-name-button">
@@ -48,7 +74,6 @@ const WorkspaceScreen = () => {
                     <div className="sidebar-section">
                         <div className="section-title">
                             <span>▼ Canales</span>
-                            {/* Botón para abrir el modal */}
                             <button 
                                 className="add-btn" 
                                 title="Crear canal"
@@ -88,6 +113,7 @@ const WorkspaceScreen = () => {
                 </nav>
             </aside>
 
+            {/* COLUMNA 2: ÁREA DE CHAT */}
             <main className="chat-container">
                 {activeChannelId ? (
                     <>
@@ -105,6 +131,8 @@ const WorkspaceScreen = () => {
                                 <h3>¡Te damos la bienvenida al canal #{activeChannel?.name}!</h3>
                                 <p>Este es el principio de la historia de este canal.</p>
                             </div>
+                            
+                            {/* Aquí mapearemos los mensajes reales en el siguiente paso */}
                         </section>
 
                         <footer className="message-input-area">
@@ -113,11 +141,13 @@ const WorkspaceScreen = () => {
                                     placeholder={`Enviar un mensaje a #${activeChannel?.name}`} 
                                     value={messageText}
                                     onChange={(e) => setMessageText(e.target.value)}
+                                    onKeyDown={handleKeyDown}
                                 />
                                 <div className="input-toolbar">
                                     <button 
                                         className={`send-btn ${messageText.trim() ? 'active' : ''}`}
                                         disabled={!messageText.trim()}
+                                        onClick={handleSendMessage}
                                     >
                                         ➡️
                                     </button>
@@ -130,7 +160,7 @@ const WorkspaceScreen = () => {
                         <div className="welcome-hero">
                             <span className="hero-icon">💬</span>
                             <h2>Bienvenido a {workspace?.title}</h2>
-                            <p>Selecciona un canal para empezar.</p>
+                            <p>Selecciona un canal en la barra lateral para empezar a chatear.</p>
                         </div>
                     </div>
                 )}
