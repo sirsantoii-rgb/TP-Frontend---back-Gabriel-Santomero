@@ -31,7 +31,7 @@ const WorkspaceScreen = () => {
         if (!window.confirm(`¿Seguro que quieres eliminar #${channel.name}?`)) return;
         
         try {
-            const response = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/channels/${workspace_id}/${channel._id}`, {
+            const response = await fetch(`https://tu-backend.vercel.app/api/workspace/${workspace_id}/channels/${channel_id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
             });
@@ -48,7 +48,7 @@ const WorkspaceScreen = () => {
         if (!newName || newName === channel.name) return;
 
         try {
-            const response = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/channels/${workspace_id}/${channel._id}`, {
+            const response = await fetch(`https://tu-backend.vercel.app/api/workspace/${workspace_id}/channels/${channel_id}`, {
                 method: 'PUT',
                 headers: { 
                     'Content-Type': 'application/json',
