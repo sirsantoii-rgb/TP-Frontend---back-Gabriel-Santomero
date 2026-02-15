@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import useWorkspace from '../../hooks/useWorkspace';
+import CreateChannelModal from './CreateChannelModal'; // Asegúrate de que la ruta sea correcta
 import './WorkspaceScreen.css';
 
 const WorkspaceScreen = () => {
@@ -8,14 +9,21 @@ const WorkspaceScreen = () => {
         channels, 
         loading, 
         error, 
-        workspace_id 
+        workspace_id,
+        refetchChannels // Usamos esta función del hook para actualizar la lista
     } = useWorkspace();
 
     const [activeChannelId, setActiveChannelId] = useState(null);
     const [messageText, setMessageText] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false); // Estado para el Modal
 
-    // Buscamos el objeto del canal activo para mostrar su nombre en el header
     const activeChannel = channels.find(c => c._id === activeChannelId);
+
+    // Función que se ejecuta cuando el modal crea el canal con éxito
+    const handleChannelCreated = (newChannel) => {
+        refetchChannels(); // Recarga la lista de canales desde el backend
+        setActiveChannelId(newChannel._id); // Opcional: selecciona el nuevo canal automáticamente
+    };
 
     if (loading) return (
         <div className="workspace-loading">
@@ -28,7 +36,6 @@ const WorkspaceScreen = () => {
 
     return (
         <div className="workspace-layout">
-            {/* COLUMNA 1: SIDEBAR */}
             <aside className="sidebar">
                 <header className="sidebar-header">
                     <button className="team-name-button">
@@ -41,7 +48,14 @@ const WorkspaceScreen = () => {
                     <div className="sidebar-section">
                         <div className="section-title">
                             <span>▼ Canales</span>
-                            <button className="add-btn" title="Crear canal">+</button>
+                            {/* Botón para abrir el modal */}
+                            <button 
+                                className="add-btn" 
+                                title="Crear canal"
+                                onClick={() => setIsModalOpen(true)} 
+                            >
+                                +
+                            </button>
                         </div>
                         <ul className="channel-list">
                             {channels.length > 0 ? (
@@ -74,7 +88,6 @@ const WorkspaceScreen = () => {
                 </nav>
             </aside>
 
-            {/* COLUMNA 2: ÁREA DE CHAT */}
             <main className="chat-container">
                 {activeChannelId ? (
                     <>
@@ -88,19 +101,9 @@ const WorkspaceScreen = () => {
                         </header>
 
                         <section className="messages-display">
-                            {/* Placeholder de mensajes - Aquí conectaremos useMessages después */}
                             <div className="message-item-welcome">
                                 <h3>¡Te damos la bienvenida al canal #{activeChannel?.name}!</h3>
                                 <p>Este es el principio de la historia de este canal.</p>
-                            </div>
-                            
-                            {/* Ejemplo de un mensaje estático */}
-                            <div className="message-item">
-                                <div className="user-avatar">G</div>
-                                <div className="message-content">
-                                    <span className="user-name">Gabriel <small>10:45 AM</small></span>
-                                    <p>¡Hola equipo! Ya tenemos funcionando la estructura del workspace. 🚀</p>
-                                </div>
                             </div>
                         </section>
 
@@ -127,11 +130,19 @@ const WorkspaceScreen = () => {
                         <div className="welcome-hero">
                             <span className="hero-icon">💬</span>
                             <h2>Bienvenido a {workspace?.title}</h2>
-                            <p>Selecciona un canal en la barra lateral para empezar a chatear con tu equipo.</p>
+                            <p>Selecciona un canal para empezar.</p>
                         </div>
                     </div>
                 )}
             </main>
+
+            {/* MODAL PARA CREAR CANAL */}
+            <CreateChannelModal 
+                isOpen={isModalOpen} 
+                onClose={() => setIsModalOpen(false)} 
+                onCreate={handleChannelCreated}
+                workspaceId={workspace_id}
+            />
         </div>
     );
 };
