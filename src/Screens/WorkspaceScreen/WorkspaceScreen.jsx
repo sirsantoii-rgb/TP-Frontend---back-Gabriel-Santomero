@@ -20,6 +20,9 @@ const WorkspaceScreen = () => {
     const [messageText, setMessageText] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loadingMessages, setLoadingMessages] = useState(false);
+    
+    // Estado para colapsar/mostrar canales
+    const [isChannelsVisible, setIsChannelsVisible] = useState(true);
 
     const activeChannel = channels.find(c => c._id === activeChannelId);
 
@@ -31,27 +34,26 @@ const WorkspaceScreen = () => {
     }, [activeChannelId]);
 
     const fetchMessages = async () => {
-    if (!workspace_id || !activeChannelId) return;
-    setLoadingMessages(true);
-    try {
-        // La ruta exacta según tu workspaceRouter
-        const response = await fetch(
-            `https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspace/${workspace_id}/channels/${activeChannelId}/messages`, 
-            {
-                headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` }
+        if (!workspace_id || !activeChannelId) return;
+        setLoadingMessages(true);
+        try {
+            const response = await fetch(
+                `https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspace/${workspace_id}/channels/${activeChannelId}/messages`, 
+                {
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` }
+                }
+            );
+            
+            const data = await response.json();
+            if (data.ok) {
+                setMessages(data.data.messages);
             }
-        );
-        
-        const data = await response.json();
-        if (data.ok) {
-            setMessages(data.data.messages);
+        } catch (err) {
+            console.error("Error al obtener mensajes:", err);
+        } finally {
+            setLoadingMessages(false);
         }
-    } catch (err) {
-        console.error("Error al obtener mensajes:", err);
-    } finally {
-        setLoadingMessages(false);
-    }
-};
+    };
 
     // --- MANEJADORES DE CANAL ---
     const handleChannelCreated = (newChannel) => {
@@ -96,32 +98,32 @@ const WorkspaceScreen = () => {
 
     // --- LÓGICA DE MENSAJES ---
     const handleSendMessage = async (e) => {
-    if (e) e.preventDefault();
-    if (!messageText.trim() || !activeChannelId) return;
+        if (e) e.preventDefault();
+        if (!messageText.trim() || !activeChannelId) return;
 
-    const textToSend = messageText;
-    setMessageText(''); 
+        const textToSend = messageText;
+        setMessageText(''); 
 
-    try {
-        const response = await fetch(
-            `https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspace/${workspace_id}/channels/${activeChannelId}/messages`, 
-            {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('auth_token')}` 
-                },
-                body: JSON.stringify({ content: textToSend })
+        try {
+            const response = await fetch(
+                `https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspace/${workspace_id}/channels/${activeChannelId}/messages`, 
+                {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('auth_token')}` 
+                    },
+                    body: JSON.stringify({ content: textToSend })
+                }
+            );
+            const data = await response.json();
+            if (data.ok) {
+                fetchMessages(); 
             }
-        );
-        const data = await response.json();
-        if (data.ok) {
-            fetchMessages(); 
+        } catch (err) {
+            console.error("Error enviando mensaje:", err);
         }
-    } catch (err) {
-        console.error("Error enviando mensaje:", err);
-    }
-};
+    };
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -146,26 +148,35 @@ const WorkspaceScreen = () => {
                 <nav className="sidebar-nav">
                     <div className="sidebar-section">
                         <div className="section-title">
-                            <span>▼ Canales</span>
+                            <button 
+                                className="toggle-section-btn" 
+                                onClick={() => setIsChannelsVisible(!isChannelsVisible)}
+                            >
+                                <span className={`arrow ${isChannelsVisible ? 'open' : ''}`}>▶</span> 
+                                <span>Canales</span>
+                            </button>
                             <button className="add-btn" onClick={() => setIsModalOpen(true)}>+</button>
                         </div>
-                        <ul className="channel-list">
-                            {channels.length > 0 ? (
-                                channels.map(channel => (
-                                    <ChannelItem 
-                                        key={channel._id}
-                                        channel={channel}
-                                        isActive={activeChannelId === channel._id}
-                                        onSelect={setActiveChannelId}
-                                        onDelete={handleDeleteChannel}
-                                        onRename={handleRenameChannel}
-                                        onInfo={handleInfoChannel}
-                                    />
-                                ))
-                            ) : (
-                                <li className="no-data">No hay canales aún</li>
-                            )}
-                        </ul>
+                        
+                        {isChannelsVisible && (
+                            <ul className="channel-list">
+                                {channels.length > 0 ? (
+                                    channels.map(channel => (
+                                        <ChannelItem 
+                                            key={channel._id}
+                                            channel={channel}
+                                            isActive={activeChannelId === channel._id}
+                                            onSelect={setActiveChannelId}
+                                            onDelete={handleDeleteChannel}
+                                            onRename={handleRenameChannel}
+                                            onInfo={handleInfoChannel}
+                                        />
+                                    ))
+                                ) : (
+                                    <li className="no-data">No hay canales aún</li>
+                                )}
+                            </ul>
+                        )}
                     </div>
                 </nav>
             </aside>
