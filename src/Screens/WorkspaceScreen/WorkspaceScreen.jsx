@@ -31,21 +31,26 @@ const WorkspaceScreen = () => {
     }, [activeChannelId]);
 
     const fetchMessages = async () => {
-        setLoadingMessages(true);
-        try {
-            const response = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/messages/${activeChannelId}`, {
-                headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` }
-            });
-            const data = await response.json();
-            if (data.ok) {
-                setMessages(data.data.messages);
-            }
-        } catch (err) {
-            console.error("Error al obtener mensajes:", err);
-        } finally {
-            setLoadingMessages(false);
+    if (!workspace_id || !activeChannelId) return; // Validación de seguridad
+    setLoadingMessages(true);
+    try {
+        // Ajustamos la ruta: /api/messages/:workspace_id/:channel_id
+        const response = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/messages/${workspace_id}/${activeChannelId}`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` }
+        });
+        
+        const data = await response.json();
+        if (data.ok) {
+            setMessages(data.data.messages);
+        } else {
+            console.error("Error del servidor:", data.message);
         }
-    };
+    } catch (err) {
+        console.error("Error al obtener mensajes:", err);
+    } finally {
+        setLoadingMessages(false);
+    }
+};
 
     // --- MANEJADORES DE CANAL ---
     const handleChannelCreated = (newChannel) => {
@@ -90,29 +95,30 @@ const WorkspaceScreen = () => {
 
     // --- LÓGICA DE MENSAJES ---
     const handleSendMessage = async (e) => {
-        if (e) e.preventDefault();
-        if (!messageText.trim()) return;
+    if (e) e.preventDefault();
+    if (!messageText.trim() || !activeChannelId) return;
 
-        const textToSend = messageText;
-        setMessageText(''); // Limpieza inmediata (Optimistic UI)
+    const textToSend = messageText;
+    setMessageText(''); 
 
-        try {
-            const response = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/messages/${activeChannelId}`, {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('auth_token')}` 
-                },
-                body: JSON.stringify({ content: textToSend })
-            });
-            const data = await response.json();
-            if (data.ok) {
-                fetchMessages(); // Recargar lista para ver el nuevo mensaje
-            }
-        } catch (err) {
-            console.error("Error enviando mensaje:", err);
+    try {
+        // Ajustamos la ruta también aquí para el POST
+        const response = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/messages/${workspace_id}/${activeChannelId}`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('auth_token')}` 
+            },
+            body: JSON.stringify({ content: textToSend })
+        });
+        const data = await response.json();
+        if (data.ok) {
+            fetchMessages(); 
         }
-    };
+    } catch (err) {
+        console.error("Error enviando mensaje:", err);
+    }
+};
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
