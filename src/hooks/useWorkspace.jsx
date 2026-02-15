@@ -10,7 +10,7 @@ const useWorkspace = () => {
 
     const getWorkspaceData = async () => {
         setLoading(true)
-        const token = localStorage.getItem('token') // Asumiendo que guardas el JWT aquí
+        const token = localStorage.getItem('auth_token') // Asumiendo que guardas el JWT aquí
 
         try {
             // 1. Traer datos del Workspace (nombre, etc)
