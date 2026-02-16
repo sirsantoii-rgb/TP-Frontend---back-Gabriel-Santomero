@@ -273,9 +273,9 @@ const WorkspaceScreen = () => {
                             <div className="form-group">
                                 <label>Rol asignado</label>
                                 <select value={inviteRole} onChange={(e) => setInviteRole(e.target.value)}>
-                                    <option value="member">Miembro</option>
+                                    <option value="User">Miembro</option>
                                     <option value="Admin">Admin</option>
-                                    <option value="guest">Invitado</option>
+                                    
                                 </select>
                             </div>
                             <div className="modal-actions">
