@@ -139,7 +139,7 @@ const WorkspaceScreen = () => {
                     'Content-Type': 'application/json', // Asegúrate que esto esté tal cual
                     'Authorization': `Bearer ${localStorage.getItem('auth_token')}` 
                 },
-                body: JSON.stringify({ mensaje: textToSend }) 
+                body: JSON.stringify({ content: textToSend }) 
             }
         );
 
