@@ -20,7 +20,7 @@ const MessageItem = ({ message }) => {
                     <span className="user-name">{username}</span>
                     <small className="message-time">{timeString}</small>
                 </div>
-                <p className="message-text">{message.content}</p>
+                <p className="message-text">{message.mensaje}</p>
             </div>
         </div>
     );
