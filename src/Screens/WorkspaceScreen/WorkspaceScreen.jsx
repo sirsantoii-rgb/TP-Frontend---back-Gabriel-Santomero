@@ -124,27 +124,38 @@ const WorkspaceScreen = () => {
     };
 
     const handleSendMessage = async (e) => {
-        if (e) e.preventDefault();
-        if (!messageText.trim() || !activeChannelId) return;
-        const textToSend = messageText;
-        setMessageText(''); 
-        try {
-            const response = await fetch(
-                `https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspace/${workspace_id}/channels/${activeChannelId}/messages`, 
-                {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('auth_token')}` 
-                    },
-                    body: JSON.stringify({ mensaje: textToSend }) // Ajustado a 'mensaje' según tu backend
-                }
-            );
-            if ((await response.json()).ok) fetchMessages(); 
-        } catch (err) { console.error("Error enviando mensaje:", err); }
-    };
+    if (e) e.preventDefault();
+    if (!messageText.trim() || !activeChannelId) return;
 
-    const handleKeyDown = (e) => {
+    const textToSend = messageText;
+    setMessageText(''); 
+
+    try {
+        const response = await fetch(
+            `https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspace/${workspace_id}/channels/${activeChannelId}/messages`, 
+            {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json', // Asegúrate que esto esté tal cual
+                    'Authorization': `Bearer ${localStorage.getItem('auth_token')}` 
+                },
+                body: JSON.stringify({ mensaje: textToSend }) 
+            }
+        );
+
+        // LEER EL JSON UNA SOLA VEZ
+        const data = await response.json();
+
+        if (data.ok) {
+            console.log("Mensaje guardado correctamente");
+            fetchMessages(); 
+        } else {
+            console.error("Error del backend:", data.error || data.message);
+        }
+    } catch (err) { 
+        console.error("Error en la petición POST:", err); 
+    }
+};    const handleKeyDown = (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             handleSendMessage();
