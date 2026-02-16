@@ -95,7 +95,7 @@ const HomeScreen = () => {
                                         </div>
                                         <div className="workspace-details">
                                             <h3>{workspace.workspace_title}</h3>
-                                            <span>{workspace.members_count || 1} miembros</span>
+                                            <span> {workspace.members_count} {workspace.members_count === 1 ? 'miembro' : 'miembros'} </span>
                                         </div>
                                     </div>
                                     <div className="workspace-actions">
