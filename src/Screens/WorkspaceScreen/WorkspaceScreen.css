@@ -129,7 +129,7 @@ cursor: pointer;}
     position: relative;
 }
 
-.channel-item:hover { background-color: #350d36; }
+.channel-item:hover { background-color: #83593f; }
 .channel-item.active { background-color: #1164a3; color: white; }
 
 .channel-label {
@@ -221,7 +221,7 @@ cursor: pointer;}
 
 /* SIDEBAR */
 .sidebar {
-    background-color: #c88258; /* Color Berenjena Slack */
+    background-color: #533625; /* Color Berenjena Slack */
     color: #bcabbc;
     display: flex;
     flex-direction: column;
@@ -296,7 +296,7 @@ cursor: pointer;}
 }
 
 .channel-item:hover, .dm-item:hover {
-    background-color: #350d36;
+    background-color: #2c1e16;
 }
 
 .channel-item.active {
@@ -328,7 +328,7 @@ cursor: pointer;}
     gap: 8px;
 }
 .btn-invite-header {
-    background-color: #007a5a;
+    background-color: #83593f;
     color: white;
     border: none;
     padding: 6px 12px;
@@ -398,7 +398,7 @@ cursor: pointer;}
 }
 
 .btn-cancel { background: none; border: 1px solid #ccc; padding: 8px 15px; border-radius: 4px; cursor: pointer; }
-.btn-submit { background: #4a154b; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+.btn-submit { background: #83593f; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
 .btn-submit:disabled { opacity: 0.5; }
 .chat-header h2 { font-size: 18px; font-weight: 900; }
 
