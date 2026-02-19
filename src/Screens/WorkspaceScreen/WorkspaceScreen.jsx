@@ -166,14 +166,14 @@ const WorkspaceScreen = () => {
     if (error) return <div className="workspace-error">⚠️ Error: {error.message}</div>;
 
     return (
-        <div className="workspace-layout">
+        <div className="workspace-layout none480">
             <aside className="sidebar">
                 <header className="sidebar-header">
                     <button className="team-name-button">{workspace?.title || 'Mi Equipo'}</button>
                     <button className="new-message-btn" title="Nuevo mensaje">📝</button>
                 </header>
 
-                <nav className="sidebar-nav none480">
+                <nav className="sidebar-nav">
                     <div className="sidebar-section">
                         <div className="section-title">
                             <button className="toggle-section-btn" onClick={() => setIsChannelsVisible(!isChannelsVisible)}>

@@ -3,7 +3,7 @@
     display: grid;
     grid-template-columns: 260px 1fr;
     height: 100vh;
-    min-width: 320px; /* Requisito de 320px */
+    max-width: 320px; /* Requisito de 320px */
     overflow: hidden;
 }
 
