@@ -173,7 +173,7 @@ const WorkspaceScreen = () => {
                     <button className="new-message-btn" title="Nuevo mensaje">📝</button>
                 </header>
 
-                <nav className="sidebar-nav">
+                <nav className="sidebar-nav none480">
                     <div className="sidebar-section">
                         <div className="section-title">
                             <button className="toggle-section-btn" onClick={() => setIsChannelsVisible(!isChannelsVisible)}>

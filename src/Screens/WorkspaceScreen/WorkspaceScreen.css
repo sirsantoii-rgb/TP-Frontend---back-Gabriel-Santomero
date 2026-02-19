@@ -98,7 +98,7 @@ cursor: pointer;}
         display: none;
     }
     .sidebar { min-width: 70px; }
-    .none480{display: none;}
+    
 }
 
 .workspace-layout {
@@ -209,6 +209,7 @@ cursor: pointer;}
         display: none;
     }
     .sidebar { min-width: 80px; }
+    .none480{display: none;}
 }
 
 /* ... (resto de tus estilos de chat y header se mantienen iguales) ... */
