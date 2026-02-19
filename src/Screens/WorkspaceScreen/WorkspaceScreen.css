@@ -209,9 +209,11 @@ cursor: pointer;}
         display: none;
     }
     .sidebar { min-width: 80px; }
+    
+}
+@media (min-width: 600px) {
     .none480{display: none;}
 }
-
 /* ... (resto de tus estilos de chat y header se mantienen iguales) ... */
 .workspace-layout {
     display: grid;
@@ -227,6 +229,7 @@ cursor: pointer;}
     color: #bcabbc;
     display: flex;
     flex-direction: column;
+    max-width: 260px;
 }
 
 .sidebar-header {
