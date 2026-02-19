@@ -1,10 +1,11 @@
 .home-container {
     font-family: 'Lato', sans-serif;
     min-height: 100vh;
-    background-image: url('/images/fondo.webp');
+    background-image: url('/images/fondo.webp') ;
     background-size: cover;        /* Cubre toda la pantalla */
-  background-position: center;   /* Centra la imagen */
-  background-repeat: no-repeat;  /* No se repite */
+   background-size: 200px 200px;   /* Centra la imagen */
+  background-repeat:repeat; 
+   background-position: 0 0;   /* No se repite */
   background-attachment: fixed;  /* Fijo al hacer scroll */
     /* background-color: #f4f4f4;  *//* Gris muy claro típico de fondo */
 }
