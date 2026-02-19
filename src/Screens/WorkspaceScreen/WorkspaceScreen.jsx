@@ -167,7 +167,7 @@ const WorkspaceScreen = () => {
 
     return (
         <div className="workspace-layout none480">
-            <aside className="sidebar">
+            <aside className="sidebar none480">
                 <header className="sidebar-header">
                     <button className="team-name-button">{workspace?.title || 'Mi Equipo'}</button>
                     <button className="new-message-btn" title="Nuevo mensaje">📝</button>
