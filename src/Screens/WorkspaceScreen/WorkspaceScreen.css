@@ -91,9 +91,9 @@ cursor: pointer;}
 
 /* Ajustes responsivos básicos para 320px */
 @media (max-width: 480px) {
-    .workspace-layout {
+    /* .workspace-layout {
         grid-template-columns: 70px 1fr;
-    }
+    } */
     .sidebar-header, .section-title span, .team-name-button {
         display: none;
     }
@@ -203,7 +203,7 @@ cursor: pointer;}
 /* RESPONSIVIDAD BÁSICA */
 @media (max-width: 600px) {
     .workspace-layout {
-        grid-template-columns: 80px 1fr;
+         grid-template-columns: 0 1fr;
     }
     .sidebar-header span, .section-title span, .channel-label span:not(.hashtag), .team-name-button {
         display: none;
