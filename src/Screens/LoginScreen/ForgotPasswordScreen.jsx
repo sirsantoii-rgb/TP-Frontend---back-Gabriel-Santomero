@@ -17,7 +17,7 @@ const ForgotPasswordScreen = () => {
         <div className="forgot-container">
             <header className="forgot-header">
                 <div className="app-logo">
-                    <img src="../../imagenes/logo.svg" alt="logo" />
+                    <img src="/images/logo.svg" alt="logo" />
                 </div>
                 <h1>Restablecer contraseña</h1>
                 <p className="subtitle">

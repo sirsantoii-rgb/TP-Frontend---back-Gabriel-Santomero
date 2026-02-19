@@ -17,7 +17,7 @@ const RegisterScreen = () => {
         <div className="register-container">
             <header className="register-header">
                 <div className="app-logo">
-                    <img src="../../imagenes/logo.svg" alt="logo" />
+                    <img src="/images/logo.svg" alt="logo" />
                 </div>
                 <h1>Crea tu cuenta</h1>
                 <p className="subtitle">Únete a tu equipo y empieza a colaborar hoy mismo.</p>

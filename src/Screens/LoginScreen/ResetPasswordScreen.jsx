@@ -30,7 +30,7 @@ const ResetPasswordScreen = () => {
         <div className="reset-container">
             <header className="reset-header">
                 <div className="app-logo">
-                    <img src="../../imagenes/logo.svg" alt="logo" />
+                    <img src="/images/logo.svg" alt="logo" />
                 </div>
                 <h1>Elige una nueva contraseña</h1>
                 <p className="subtitle">

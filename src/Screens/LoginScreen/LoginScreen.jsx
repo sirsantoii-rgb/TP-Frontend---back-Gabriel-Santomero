@@ -18,7 +18,7 @@ const LoginScreen = () => {
             <header className="login-header">
                 {/* Puedes reemplazar este div con una etiqueta img si tienes el logo de tu app */}
                 <div className="app-logo">
-                    <img src="../../imagenes/logo.svg" alt="logo" />
+                    <img src="/images/logo.svg" alt="logo" />
                     
                     <p class="logo-text">cafeWork es tu espacio de trabajo digital: un lugar donde conversar, compartir ideas y coordinar proyectos como si estuvieras en tu cafetería favorita, pero con todas las funciones que tu equipo necesita.</p>
                 </div>
