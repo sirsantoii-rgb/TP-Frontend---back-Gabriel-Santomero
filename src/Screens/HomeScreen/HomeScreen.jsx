@@ -61,7 +61,7 @@ const HomeScreen = () => {
         <div className="home-container">
             <nav className="home-nav">
                 <div className="nav-left">
-                    <img src="/images/logo.svg" alt="logo" />
+                    <img src="/images/logo.svg" alt="logo"  style={{ maxHeight: '40px' }}  />
                 </div>
                 <div className="nav-right">
                     <button className="nav-btn">🔔</button>
