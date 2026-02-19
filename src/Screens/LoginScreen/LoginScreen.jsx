@@ -18,11 +18,13 @@ const LoginScreen = () => {
             <header className="login-header">
                 {/* Puedes reemplazar este div con una etiqueta img si tienes el logo de tu app */}
                 <div className="app-logo">
-                    <span className="logo-icon">🚀</span>
-                    <span className="logo-text">MiSlack</span>
+                    <img src="../../imagenes/logo.svg" alt="logo" />
+                    
+                    <p class="logo-text">cafeWork es tu espacio de trabajo digital: un lugar donde conversar, compartir ideas y coordinar proyectos como si estuvieras en tu cafetería favorita, pero con todas las funciones que tu equipo necesita.</p>
                 </div>
                 <h1>Primero, introduce tu email</h1>
                 <p className="subtitle">Sugerimos usar la <strong>dirección de correo que usas en el trabajo.</strong></p>
+                
             </header>
 
             <main className="login-main">

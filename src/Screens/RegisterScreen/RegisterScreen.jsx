@@ -17,8 +17,7 @@ const RegisterScreen = () => {
         <div className="register-container">
             <header className="register-header">
                 <div className="app-logo">
-                    <span className="logo-icon">🚀</span>
-                    <span className="logo-text">MiSlack</span>
+                    <img src="../../imagenes/logo.svg" alt="logo" />
                 </div>
                 <h1>Crea tu cuenta</h1>
                 <p className="subtitle">Únete a tu equipo y empieza a colaborar hoy mismo.</p>

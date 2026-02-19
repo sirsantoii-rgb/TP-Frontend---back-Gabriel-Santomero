@@ -30,8 +30,7 @@ const ResetPasswordScreen = () => {
         <div className="reset-container">
             <header className="reset-header">
                 <div className="app-logo">
-                    <span className="logo-icon">🚀</span>
-                    <span className="logo-text">MiSlack</span>
+                    <img src="../../imagenes/logo.svg" alt="logo" />
                 </div>
                 <h1>Elige una nueva contraseña</h1>
                 <p className="subtitle">
