@@ -1,7 +1,12 @@
 .home-container {
     font-family: 'Lato', sans-serif;
     min-height: 100vh;
-    background-color: #f4f4f4; /* Gris muy claro típico de fondo */
+    background-image: url('/images/fondo.wep');
+    background-size: cover;        /* Cubre toda la pantalla */
+  background-position: center;   /* Centra la imagen */
+  background-repeat: no-repeat;  /* No se repite */
+  background-attachment: fixed;  /* Fijo al hacer scroll */
+    /* background-color: #f4f4f4;  *//* Gris muy claro típico de fondo */
 }
 
 /* Navbar */
