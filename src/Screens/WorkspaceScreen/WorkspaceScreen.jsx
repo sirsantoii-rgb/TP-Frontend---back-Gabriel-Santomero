@@ -247,7 +247,7 @@ const WorkspaceScreen = () => {
                 ) : (
                     <div className="no-channel-selected">
                         <div className="welcome-hero">
-                            <span className="hero-icon">💬</span>
+                            <img src="/images/logo.svg" alt="logo"  style={{ maxHeight: '100px' }}  />
                             <h2>Bienvenido a {workspace?.title}</h2>
                             <p>Selecciona un canal para comenzar.</p>
                             <button className="btn-secondary" style={{marginTop:'20px'}} onClick={() => setIsInviteModalOpen(true)}>Invitar gente al equipo</button>

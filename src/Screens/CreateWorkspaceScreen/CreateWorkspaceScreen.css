@@ -3,7 +3,7 @@
 .create-workspace-container {
     font-family: 'Lato', sans-serif;
     min-height: 100vh;
-    background-color: #ffffff;
+    background-color: #faf0ea;
     display: flex;
     flex-direction: column;
     align-items: center;

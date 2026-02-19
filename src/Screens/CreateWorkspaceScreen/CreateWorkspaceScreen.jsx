@@ -17,8 +17,7 @@ const CreateWorkspaceScreen = () => {
         <div className="create-workspace-container">
             <header className="create-header-nav">
                 <div className="app-logo">
-                    <span className="logo-icon">🚀</span>
-                    <span className="logo-text">MiSlack</span>
+                    <img src="/images/logo.svg" alt="logo" />
                 </div>
             </header>
 
