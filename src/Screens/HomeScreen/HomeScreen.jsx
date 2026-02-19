@@ -61,8 +61,7 @@ const HomeScreen = () => {
         <div className="home-container">
             <nav className="home-nav">
                 <div className="nav-left">
-                    <span className="logo-icon">🚀</span>
-                    <span className="logo-text">MiSlack</span>
+                    <img src="/images/logo.svg" alt="logo" />
                 </div>
                 <div className="nav-right">
                     <button className="nav-btn">🔔</button>
