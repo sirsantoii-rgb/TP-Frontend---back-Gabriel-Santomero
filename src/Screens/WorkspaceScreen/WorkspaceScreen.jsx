@@ -136,14 +136,14 @@ const WorkspaceScreen = () => {
             {
                 method: 'POST',
                 headers: { 
-                    'Content-Type': 'application/json', // Asegúrate que esto esté tal cual
+                    'Content-Type': 'application/json', 
                     'Authorization': `Bearer ${localStorage.getItem('auth_token')}` 
                 },
                 body: JSON.stringify({ content: textToSend }) 
             }
         );
 
-        // LEER EL JSON UNA SOLA VEZ
+        
         const data = await response.json();
 
         if (data.ok) {

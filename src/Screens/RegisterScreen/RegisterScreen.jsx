@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router'
 import useRegister from '../../hooks/useRegister'
-import './RegisterScreen.css' // Importamos el CSS
+import './RegisterScreen.css' 
 
 const RegisterScreen = () => {
     const {

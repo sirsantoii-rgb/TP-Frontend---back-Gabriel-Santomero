@@ -29,14 +29,14 @@ const useForgotPassword = () => {
             const data = await res.json()
 
             if (!data.ok) {
-                // Si el backend responde con un error (ej. 404 mail no encontrado)
+                
                 setError(data)
             } else {
-                // Si todo sale bien
+                
                 setResponse(data)
             }
         } catch (err) {
-            // Error de red o del servidor caído
+            
             setError({ message: 'Error de conexión con el servidor' })
         } finally {
             setLoading(false)

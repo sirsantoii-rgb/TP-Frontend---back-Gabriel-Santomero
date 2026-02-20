@@ -4,7 +4,7 @@ import { WorkspaceContext } from '../../Context/WorkspaceContext'
 import './HomeScreen.css'
 
 const HomeScreen = () => {
-    // Asumimos que refetchWorkspaces es una función en tu context para recargar la lista
+    
     const { 
         workspace_list_loading, 
         workspace_list_error, 
@@ -13,7 +13,7 @@ const HomeScreen = () => {
     } = useContext(WorkspaceContext)
 
     const handleDeleteWorkspace = async (e, workspaceId, title) => {
-        e.preventDefault(); // Evita cualquier navegación accidental
+        e.preventDefault(); 
         
         const confirmDelete = window.confirm(`¿Estás seguro de que deseas eliminar el espacio "${title}"? Esta acción no se puede deshacer.`);
         
@@ -31,7 +31,7 @@ const HomeScreen = () => {
 
             if (data.ok) {
                 alert("Espacio eliminado con éxito");
-                // Si tienes la función en el context, úsala. Si no, recarga la página.
+                
                 if (refetchWorkspaces) {
                     refetchWorkspaces();
                 } else {

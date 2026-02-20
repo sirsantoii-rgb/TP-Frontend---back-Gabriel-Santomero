@@ -13,7 +13,7 @@ const ResetPasswordScreen = () => {
         token 
     } = useResetPassword()
 
-    // Si no hay token en la URL, mostramos un error preventivo
+    
     if (!token) {
         return (
             <div className="reset-container">

@@ -5,7 +5,7 @@ const CreateChannelModal = ({ isOpen, onClose, onCreate, workspaceId }) => {
     const [name, setName] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // Si el modal no está abierto, no renderizamos nada
+    
     if (!isOpen) return null;
 
     const handleSubmit = async (e) => {
@@ -28,7 +28,7 @@ const CreateChannelModal = ({ isOpen, onClose, onCreate, workspaceId }) => {
             const data = await response.json();
 
             if (data.ok) {
-                // Notificamos al padre y limpiamos
+                
                 onCreate(data.data.channel_created);
                 setName('');
                 onClose();

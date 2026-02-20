@@ -4,7 +4,7 @@ const ChannelItem = ({ channel, isActive, onSelect, onDelete, onRename, onInfo }
     const [showMenu, setShowMenu] = useState(false);
     const menuRef = useRef(null);
 
-    // Cerrar el menú si haces clic fuera del componente
+    
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {

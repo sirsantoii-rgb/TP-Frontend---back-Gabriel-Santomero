@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
 
 const useWorkspace = () => {
-    const { workspace_id } = useParams() // Captura el ID de la URL
+    const { workspace_id } = useParams() 
     const [channels, setChannels] = useState([])
     const [workspace, setWorkspace] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -10,18 +10,16 @@ const useWorkspace = () => {
 
     const getWorkspaceData = async () => {
         setLoading(true)
-        const token = localStorage.getItem('auth_token') // Asumiendo que guardas el JWT aquí
+        const token = localStorage.getItem('auth_token') 
 
         try {
-            // 1. Traer datos del Workspace (nombre, etc)
-            // Usamos tu ruta: GET /api/workspaces/:workspace_id
+            
             const workspaceRes = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspace/${workspace_id}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             })
             const workspaceData = await workspaceRes.json()
 
-            // 2. Traer canales del Workspace
-            // Usamos tu ruta: GET /api/workspaces/:workspace_id/channels
+            
             const channelsRes = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspace/${workspace_id}/channels`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             })
@@ -44,7 +42,7 @@ const useWorkspace = () => {
         if (workspace_id) {
             getWorkspaceData()
         }
-    }, [workspace_id]) // Se vuelve a ejecutar si el usuario cambia de workspace
+    }, [workspace_id]) 
 
     return {
         workspace,

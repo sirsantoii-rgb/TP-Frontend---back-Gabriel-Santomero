@@ -113,7 +113,7 @@
 .btn-cancel:hover { background: #f8f8f8; }
 
 .btn-create {
-    background: #007a5a;
+    background: #83593f;
     color: white;
     border: none;
     padding: 10px 24px;
@@ -123,7 +123,7 @@
     transition: background 0.2s;
 }
 
-.btn-create:hover:not(:disabled) { background: #005a44; }
+.btn-create:hover:not(:disabled) { background: #83593f; }
 
 .btn-create:disabled {
     background: #dddddd;

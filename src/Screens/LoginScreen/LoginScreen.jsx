@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router'
 import useLogin from '../../hooks/useLogin'
-import './LoginScreen.css' // Importamos el CSS
+import './LoginScreen.css' 
 
 const LoginScreen = () => {
     const {
@@ -16,11 +16,11 @@ const LoginScreen = () => {
     return (
         <div className="login-container">
             <header className="login-header">
-                {/* Puedes reemplazar este div con una etiqueta img si tienes el logo de tu app */}
+                
                 <div className="app-logo">
                     <img src="/images/logo.svg" alt="logo" />
                     
-                    <p class="logo-text">cafeWork es tu espacio de trabajo digital: un lugar donde conversar, compartir ideas y coordinar proyectos como si estuvieras en tu cafetería favorita, pero con todas las funciones que tu equipo necesita.</p>
+                    <p class="logo-text" style={{color: '#454245', fontSize: '20px', fontWeight: 'normal'}}>cafeWork es tu espacio de trabajo digital: un lugar donde conversar, compartir ideas y coordinar proyectos como si estuvieras en tu cafetería favorita, pero con todas las funciones que tu equipo necesita.</p>
                 </div>
                 <h1>Primero, introduce tu email</h1>
                 <p className="subtitle">Sugerimos usar la <strong>dirección de correo que usas en el trabajo.</strong></p>

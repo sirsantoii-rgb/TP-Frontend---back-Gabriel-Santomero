@@ -5,7 +5,7 @@ const useResetPassword = () => {
     const [searchParams] = useSearchParams()
     const navigate = useNavigate()
     
-    // Obtenemos el token que viene en la URL (?token=...)
+    
     const token = searchParams.get('token')
 
     const [password, setPassword] = useState('')
@@ -42,7 +42,7 @@ const useResetPassword = () => {
                 setError(data)
             } else {
                 setSuccess(true)
-                // Esperamos 3 segundos para que el usuario lea el mensaje de éxito y redirigimos
+                
                 setTimeout(() => {
                     navigate('/login')
                 }, 3000)

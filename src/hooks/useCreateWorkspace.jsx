@@ -10,7 +10,7 @@ const useCreateWorkspace = () => {
     const [errors, setErrors] = useState({})
 
     const handleCreateWorkspace = async (form_values) => {
-        // Validaciones manuales antes de enviar
+        
         const newErrors = {};
 
         if (!form_values.title || form_values.title.trim() === '') {
