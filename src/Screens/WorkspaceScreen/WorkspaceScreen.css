@@ -388,8 +388,12 @@
     .workspace-layout {
         grid-template-columns: 1fr;
     }
-
+.chat-header{
+    font-size: 15px;
+}
     .sidebar {
         display: none;
     }
+
+
 }
