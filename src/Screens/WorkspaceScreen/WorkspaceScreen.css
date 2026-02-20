@@ -388,7 +388,7 @@
     .workspace-layout {
         grid-template-columns: 1fr;
     }
-.chat-header{
+.header-left{
     font-size: 15px;
 }
     .sidebar {
