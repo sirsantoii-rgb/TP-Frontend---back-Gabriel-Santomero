@@ -1,5 +1,5 @@
 /* ============================= */
-/* RESET & BASE */
+/* RESET */
 /* ============================= */
 * {
     box-sizing: border-box;
@@ -9,11 +9,11 @@
 }
 
 /* ============================= */
-/* LAYOUT PRINCIPAL */
+/* LAYOUT */
 /* ============================= */
 .workspace-layout {
     display: grid;
-    grid-template-columns: 260px 1fr; /* Sidebar fija en escritorio */
+    grid-template-columns: 260px 1fr;
     height: 100vh;
     min-width: 320px;
     overflow: hidden;
@@ -21,7 +21,7 @@
 }
 
 /* ============================= */
-/* SIDEBAR (CANALES) */
+/* SIDEBAR */
 /* ============================= */
 .sidebar {
     background-color: #533625;
@@ -29,8 +29,7 @@
     display: flex;
     flex-direction: column;
     width: 260px;
-    z-index: 1000;
-    transition: left 0.3s ease; /* Animación de deslizamiento */
+    transition: left 0.3s ease; /* Para que deslice en móvil */
 }
 
 .sidebar-header {
@@ -50,21 +49,21 @@
     cursor: pointer;
 }
 
-.close-mobile-btn {
-    display: none; /* Oculto en PC */
-    background: none;
-    border: none;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-}
-
 .new-message-btn {
     background: white;
     border: none;
     border-radius: 50%;
     width: 30px;
     height: 30px;
+    cursor: pointer;
+}
+
+.close-mobile-btn {
+    display: none; /* Solo visible en móvil */
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
     cursor: pointer;
 }
 
@@ -91,6 +90,7 @@
     border: none;
     color: #ddd;
     cursor: pointer;
+    font-weight: 500;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -108,14 +108,41 @@
     list-style: none;
 }
 
+.channel-item {
+    padding: 6px 24px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.channel-item:hover {
+    background-color: #2c1e16;
+}
+
+.channel-item.active {
+    background-color: #3d3531;
+    color: white;
+}
+
+.channel-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.hashtag {
+    opacity: 0.6;
+    font-weight: bold;
+}
+
 /* ============================= */
-/* CHAT CONTAINER */
+/* CHAT */
 /* ============================= */
 .chat-container {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background: white;
 }
 
 .chat-header {
@@ -134,9 +161,8 @@
     gap: 12px;
 }
 
-/* BOTÓN DE LAS 3 LÍNEAS (MÓVIL) */
 .mobile-menu-btn {
-    display: none; /* Oculto en PC */
+    display: none; /* Solo visible en móvil */
     background: none;
     border: none;
     font-size: 24px;
@@ -167,6 +193,11 @@
     font-size: 18px;
     cursor: pointer;
     padding: 5px;
+    border-radius: 4px;
+}
+
+.header-opt-btn:hover {
+    background: #f0f0f0;
 }
 
 /* ============================= */
@@ -178,6 +209,11 @@
     padding: 20px;
 }
 
+.messages-loading {
+    text-align: center;
+    color: #616061;
+}
+
 .message-item-welcome {
     text-align: center;
     color: #616061;
@@ -185,7 +221,7 @@
 }
 
 /* ============================= */
-/* INPUT DE MENSAJE */
+/* INPUT */
 /* ============================= */
 .message-input-area {
     padding: 0 20px 20px 20px;
@@ -227,7 +263,7 @@
 }
 
 /* ============================= */
-/* MODALES */
+/* MODAL */
 /* ============================= */
 .modal-overlay {
     position: fixed;
@@ -247,48 +283,161 @@
     max-width: 400px;
 }
 
+.form-group {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-cancel {
+    background: none;
+    border: 1px solid #ccc;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-submit {
+    background: #83593f;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
 /* ============================= */
-/* RESPONSIVE (MÓVIL < 600px) */
+/* STATES */
+/* ============================= */
+.workspace-loading,
+.workspace-error,
+.no-channel-selected {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    color: #616061;
+}
+
+/* ============================= */
+/* MESSAGE ITEM (Slack Style) */
+/* ============================= */
+.message-item {
+    display: flex;
+    gap: 12px;
+    padding: 8px 20px;
+    transition: background-color 0.15s ease;
+}
+
+.message-item:hover {
+    background-color: #f8f8f8;
+}
+
+.user-avatar {
+    width: 38px;
+    height: 38px;
+    background-color: #3f0e40;
+    color: white;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.message-content {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.message-header {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 2px;
+}
+
+.user-name {
+    font-weight: 900;
+    font-size: 15px;
+    color: #1d1c1d;
+}
+
+.message-time {
+    font-size: 12px;
+    color: #616061;
+}
+
+.message-text {
+    font-size: 15px;
+    line-height: 1.46;
+    color: #1d1c1d;
+    margin: 0;
+    word-wrap: break-word;
+}
+
+/* ============================= */
+/* RESPONSIVE */
 /* ============================= */
 @media (max-width: 600px) {
     .workspace-layout {
-        grid-template-columns: 1fr; /* El chat toma toda la pantalla */
+        grid-template-columns: 1fr;
     }
 
-    /* Mostramos el botón hamburguesa */
+    .header-left {
+        font-size: 15px;
+    }
+
+    /* Activamos el botón de 3 líneas */
     .mobile-menu-btn {
         display: block;
     }
 
-    /* Mostramos la X dentro del sidebar */
-    .close-mobile-btn {
-        display: block;
-    }
-
-    /* Transformamos el sidebar en un menú lateral deslizable */
+    /* Cambiamos el comportamiento del sidebar en lugar de borrarlo */
     .sidebar {
         position: fixed;
-        left: -260px; /* Lo escondemos a la izquierda */
+        left: -260px; /* Escondido a la izquierda */
         top: 0;
         bottom: 0;
         z-index: 5000;
-        box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+        box-shadow: 2px 0 12px rgba(0,0,0,0.4);
     }
 
-    /* Cuando React pone la clase 'mobile-open' lo movemos a la vista */
+    /* Cuando el estado de React es true, entra el menú */
     .sidebar.mobile-open {
         left: 0;
     }
 
-    /* Fondo oscuro tras el menú abierto */
+    /* Mostramos la X para cerrar solo en móvil */
+    .close-mobile-btn {
+        display: block;
+    }
+
+    /* Capa oscura de fondo al abrir menú */
     .sidebar-overlay {
         position: fixed;
         inset: 0;
         background: rgba(0,0,0,0.5);
         z-index: 4000;
-    }
-
-    .no-channel-selected h2 {
-        font-size: 18px;
     }
 }
