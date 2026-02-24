@@ -8,9 +8,12 @@
     font-family: system-ui, -apple-system, sans-serif;
 }
 
+/* ============================= */
+/* LAYOUT PRINCIPAL */
+/* ============================= */
 .workspace-layout {
     display: grid;
-    grid-template-columns: 260px 1fr;
+    grid-template-columns: 260px 1fr; /* Sidebar fija en escritorio */
     height: 100vh;
     min-width: 320px;
     overflow: hidden;
@@ -18,7 +21,7 @@
 }
 
 /* ============================= */
-/* SIDEBAR (Versión Desktop y Móvil) */
+/* SIDEBAR (CANALES) */
 /* ============================= */
 .sidebar {
     background-color: #533625;
@@ -26,8 +29,8 @@
     display: flex;
     flex-direction: column;
     width: 260px;
-    transition: left 0.3s ease;
     z-index: 1000;
+    transition: left 0.3s ease; /* Animación de deslizamiento */
 }
 
 .sidebar-header {
@@ -36,15 +39,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.close-mobile-btn {
-    display: none; /* Oculto en PC */
-    background: none;
-    border: none;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
 }
 
 .team-name-button {
@@ -56,12 +50,32 @@
     cursor: pointer;
 }
 
+.close-mobile-btn {
+    display: none; /* Oculto en PC */
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.new-message-btn {
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
 .sidebar-nav {
     flex: 1;
     overflow-y: auto;
 }
 
-.sidebar-section { margin-top: 20px; }
+.sidebar-section {
+    margin-top: 20px;
+}
 
 .section-title {
     padding: 0 16px;
@@ -82,8 +96,17 @@
     gap: 6px;
 }
 
-.add-btn { background: none; border: none; color: #ddd; font-size: 20px; cursor: pointer; }
-.channel-list { list-style: none; }
+.add-btn {
+    background: none;
+    border: none;
+    color: #ddd;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.channel-list {
+    list-style: none;
+}
 
 /* ============================= */
 /* CHAT CONTAINER */
@@ -102,6 +125,7 @@
     padding: 0 20px;
     height: 64px;
     border-bottom: 1px solid #ddd;
+    background: white;
 }
 
 .header-left {
@@ -110,15 +134,21 @@
     gap: 12px;
 }
 
+/* BOTÓN DE LAS 3 LÍNEAS (MÓVIL) */
 .mobile-menu-btn {
     display: none; /* Oculto en PC */
     background: none;
     border: none;
     font-size: 24px;
     cursor: pointer;
+    color: #533625;
 }
 
-.header-right { display: flex; align-items: center; gap: 10px; }
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
 .btn-invite-header {
     background-color: #83593f;
@@ -131,8 +161,16 @@
     font-size: 13px;
 }
 
+.header-opt-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 5px;
+}
+
 /* ============================= */
-/* MESSAGES & INPUT */
+/* MENSAJES */
 /* ============================= */
 .messages-display {
     flex: 1;
@@ -140,7 +178,18 @@
     padding: 20px;
 }
 
-.message-input-area { padding: 0 20px 20px 20px; }
+.message-item-welcome {
+    text-align: center;
+    color: #616061;
+    margin-top: 40px;
+}
+
+/* ============================= */
+/* INPUT DE MENSAJE */
+/* ============================= */
+.message-input-area {
+    padding: 0 20px 20px 20px;
+}
 
 .input-wrapper {
     border: 1px solid #868686;
@@ -165,11 +214,20 @@
     justify-content: flex-end;
 }
 
-.send-btn { background: none; border: none; font-size: 20px; cursor: pointer; opacity: 0.3; }
-.send-btn.active { opacity: 1; }
+.send-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0.3;
+}
+
+.send-btn.active {
+    opacity: 1;
+}
 
 /* ============================= */
-/* MODALS */
+/* MODALES */
 /* ============================= */
 .modal-overlay {
     position: fixed;
@@ -190,34 +248,39 @@
 }
 
 /* ============================= */
-/* RESPONSIVE (MENOR A 600PX) */
+/* RESPONSIVE (MÓVIL < 600px) */
 /* ============================= */
 @media (max-width: 600px) {
     .workspace-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* El chat toma toda la pantalla */
     }
 
-    /* El sidebar se vuelve un panel flotante */
+    /* Mostramos el botón hamburguesa */
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    /* Mostramos la X dentro del sidebar */
+    .close-mobile-btn {
+        display: block;
+    }
+
+    /* Transformamos el sidebar en un menú lateral deslizable */
     .sidebar {
         position: fixed;
-        left: -260px; /* Escondido */
+        left: -260px; /* Lo escondemos a la izquierda */
         top: 0;
         bottom: 0;
         z-index: 5000;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.3);
     }
 
+    /* Cuando React pone la clase 'mobile-open' lo movemos a la vista */
     .sidebar.mobile-open {
-        left: 0; /* Se desliza al abrir */
+        left: 0;
     }
 
-    .mobile-menu-btn {
-        display: block; /* Aparece la hamburguesa */
-    }
-
-    .close-mobile-btn {
-        display: block; /* Aparece la X para cerrar */
-    }
-
+    /* Fondo oscuro tras el menú abierto */
     .sidebar-overlay {
         position: fixed;
         inset: 0;
@@ -225,9 +288,7 @@
         z-index: 4000;
     }
 
-    .hide-mobile { display: none; }
-    .none-mobile { display: none; }
-
-    .chat-header { padding: 0 10px; }
-    .chat-header h2 { font-size: 16px; }
+    .no-channel-selected h2 {
+        font-size: 18px;
+    }
 }
