@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './CreateChannelModal.css';
 
-// Cambié workspaceId por workspace_id y onCreate por onChannelCreated para que coincida con tu WorkspaceScreen
+// IMPORTANTE: Los nombres aquí DEBEN coincidir con los que pasas desde WorkspaceScreen
 const CreateChannelModal = ({ isOpen, onClose, onChannelCreated, workspace_id }) => {
     const [name, setName] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -12,12 +12,22 @@ const CreateChannelModal = ({ isOpen, onClose, onChannelCreated, workspace_id })
         e.preventDefault();
         if (!name.trim()) return;
 
+        // Verificación de seguridad: si no hay ID, no disparamos
+        if (!workspace_id) {
+            alert("Error: No se encontró el ID del espacio de trabajo.");
+            return;
+        }
+
         setIsSubmitting(true);
         const token = localStorage.getItem('auth_token');
+        
+        // La URL exacta que me pediste
+        const url = `https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspace/${workspace_id}/channels`;
+        
+        console.log("Disparando POST a:", url); // Revisa esto en F12
 
         try {
-            // Usamos workspace_id que viene por props
-            const response = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspace/${workspace_id}/channels`, {
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -29,17 +39,19 @@ const CreateChannelModal = ({ isOpen, onClose, onChannelCreated, workspace_id })
             const data = await response.json();
 
             if (data.ok) {
-                // Importante: Pasamos el canal creado al padre para que se actualice la lista
-                // Usamos la propiedad correcta según tu API (data.data.channel_created)
-                onChannelCreated(data.data.channel_created);
+                // Ajustamos la lectura según la estructura común de tu API
+                // Si el objeto viene dentro de data.channel_created, lo pasamos
+                const newChannel = data.data?.channel_created || data.data;
+                onChannelCreated(newChannel);
                 setName('');
                 onClose();
             } else {
-                alert(data.message || "Error al crear el canal");
+                // Si el servidor responde pero con ok: false
+                alert(`Error del servidor: ${data.message || 'No se pudo crear'}`);
             }
         } catch (error) {
-            console.error("Error:", error);
-            alert("Error de conexión con el servidor");
+            console.error("Error de red:", error);
+            alert("Error de conexión: Verifica tu internet o el estado del servidor.");
         } finally {
             setIsSubmitting(false);
         }
@@ -53,7 +65,7 @@ const CreateChannelModal = ({ isOpen, onClose, onChannelCreated, workspace_id })
                     <button className="close-x" onClick={onClose}>&times;</button>
                 </div>
                 <p className="modal-description">
-                    Los canales son donde tu equipo se comunica. Son mejores cuando se organizan en torno a un tema (ej: #proyectos).
+                    Los canales son donde tu equipo se comunica.
                 </p>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
