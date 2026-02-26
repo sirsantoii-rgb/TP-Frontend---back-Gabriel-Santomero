@@ -21,10 +21,7 @@ const WorkspaceScreen = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loadingMessages, setLoadingMessages] = useState(false);
     const [isChannelsVisible, setIsChannelsVisible] = useState(true);
-    
-    // Estado para el sidebar en móvil
     const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-
     const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
     const [inviteEmail, setInviteEmail] = useState('');
     const [inviteRole, setInviteRole] = useState('member');
@@ -86,6 +83,7 @@ const WorkspaceScreen = () => {
 
     const handleChannelCreated = (newChannel) => {
         refetchChannels(); 
+        setIsModalOpen(false);
         if (newChannel?._id) setActiveChannelId(newChannel._id); 
     };
 
@@ -152,12 +150,11 @@ const WorkspaceScreen = () => {
         }
     };
 
-    if (loading) return <div className="workspace-loading"><div className="spinner"></div><p>Cargando...</p></div>;
+    if (loading) return <div className="workspace-loading">Cargando...</div>;
     if (error) return <div className="workspace-error">⚠️ Error: {error.message}</div>;
 
     return (
         <div className="workspace-layout">
-            {/* El sidebar usa la clase mobile-open para mostrarse en móvil */}
             <aside className={`sidebar ${isMobileSidebarOpen ? 'mobile-open' : ''}`}>
                 <header className="sidebar-header">
                     <button className="team-name-button">{workspace?.title || 'Mi Equipo'}</button>
@@ -183,7 +180,7 @@ const WorkspaceScreen = () => {
                                         isActive={activeChannelId === channel._id}
                                         onSelect={(id) => {
                                             setActiveChannelId(id);
-                                            setIsMobileSidebarOpen(false); // Cierra al seleccionar canal
+                                            setIsMobileSidebarOpen(false);
                                         }}
                                         onDelete={handleDeleteChannel}
                                         onRename={handleRenameChannel}
@@ -196,13 +193,11 @@ const WorkspaceScreen = () => {
                 </nav>
             </aside>
 
-            {/* Overlay para cerrar sidebar al hacer clic fuera */}
             {isMobileSidebarOpen && <div className="sidebar-overlay" onClick={() => setIsMobileSidebarOpen(false)}></div>}
 
             <main className="chat-container">
                 <header className="chat-header">
                     <div className="header-left">
-                        {/* Botón hamburguesa visible solo en móvil */}
                         <button className="mobile-menu-btn" onClick={() => setIsMobileSidebarOpen(true)}>☰</button>
                         <h2><span className="hashtag">#</span> {activeChannel?.name || "Selecciona un canal"}</h2>
                     </div>
@@ -239,7 +234,35 @@ const WorkspaceScreen = () => {
                 )}
             </main>
 
-            {/* Modales... (omitidos por brevedad, usa los que ya tenías) */}
+            {/* MODALES */}
+            {isModalOpen && (
+                <CreateChannelModal 
+                    isOpen={isModalOpen} 
+                    onClose={() => setIsModalOpen(false)} 
+                    workspace_id={workspace_id}
+                    onChannelCreated={handleChannelCreated}
+                />
+            )}
+
+            {isInviteModalOpen && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h3>Invitar al equipo</h3>
+                        <form onSubmit={handleSendInvitation}>
+                            <div className="form-group">
+                                <label>Email:</label>
+                                <input type="email" value={inviteEmail} onChange={(e) => setInviteEmail(e.target.value)} required />
+                            </div>
+                            <div className="modal-actions">
+                                <button type="button" className="btn-cancel" onClick={() => setIsInviteModalOpen(false)}>Cancelar</button>
+                                <button type="submit" className="btn-submit" disabled={loadingInvite}>
+                                    {loadingInvite ? 'Enviando...' : 'Invitar'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
