@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import './CreateChannelModal.css';
 
-const CreateChannelModal = ({ isOpen, onClose, onCreate, workspaceId }) => {
+// Cambié workspaceId por workspace_id y onCreate por onChannelCreated para que coincida con tu WorkspaceScreen
+const CreateChannelModal = ({ isOpen, onClose, onChannelCreated, workspace_id }) => {
     const [name, setName] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    
     if (!isOpen) return null;
 
     const handleSubmit = async (e) => {
@@ -16,7 +16,8 @@ const CreateChannelModal = ({ isOpen, onClose, onCreate, workspaceId }) => {
         const token = localStorage.getItem('auth_token');
 
         try {
-            const response = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspace/${workspaceId}/channels`, {
+            // Usamos workspace_id que viene por props
+            const response = await fetch(`https://tp-backend-utn-gabriel-santomero.vercel.app/api/workspace/${workspace_id}/channels`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -28,8 +29,9 @@ const CreateChannelModal = ({ isOpen, onClose, onCreate, workspaceId }) => {
             const data = await response.json();
 
             if (data.ok) {
-                
-                onCreate(data.data.channel_created);
+                // Importante: Pasamos el canal creado al padre para que se actualice la lista
+                // Usamos la propiedad correcta según tu API (data.data.channel_created)
+                onChannelCreated(data.data.channel_created);
                 setName('');
                 onClose();
             } else {
